@@ -1,0 +1,318 @@
+2025-11-26 16:52:05,696 INFO 🚀 Starting Automated Hybrid Scraper at 2025-11-26 16:52:05.696021
+2025-11-26 16:52:05,696 INFO 📝 No existing file found - starting fresh database
+2025-11-26 16:52:05,696 INFO 🚀 Starting API discovery phase...
+2025-11-26 16:52:05,697 INFO [1/41] 🌍 San Francisco, USA
+2025-11-26 16:52:06,195 INFO    📊 Found 10 events
+2025-11-26 16:52:06,502 INFO [2/41] 🌍 New York, USA
+2025-11-26 16:52:06,921 INFO    📊 Found 14 events
+2025-11-26 16:52:07,230 INFO [3/41] 🌍 London, UK
+2025-11-26 16:52:08,343 INFO    📊 Found 23 events
+2025-11-26 16:52:08,654 INFO [4/41] 🌍 Berlin, Germany
+2025-11-26 16:52:09,039 INFO    📊 Found 9 events
+2025-11-26 16:52:09,346 INFO [5/41] 🌍 Singapore
+2025-11-26 16:52:09,777 INFO    📊 Found 3 events
+2025-11-26 16:52:10,080 INFO [6/41] 🌍 Tokyo, Japan
+2025-11-26 16:52:10,498 INFO    📊 Found 21 events
+2025-11-26 16:52:10,803 INFO [7/41] 🌍 Seoul, South Korea
+2025-11-26 16:52:11,212 INFO    📊 Found 12 events
+2025-11-26 16:52:11,519 INFO [8/41] 🌍 Dubai, UAE
+2025-11-26 16:52:12,156 INFO    📊 Found 37 events
+2025-11-26 16:52:12,466 INFO [9/41] 🌍 Toronto, Canada
+2025-11-26 16:52:13,055 INFO    📊 Found 6 events
+2025-11-26 16:52:13,363 INFO [10/41] 🌍 Sydney, Australia
+2025-11-26 16:52:13,771 INFO    📊 Found 3 events
+2025-11-26 16:52:14,077 INFO [11/41] 🌍 Hong Kong
+2025-11-26 16:52:14,414 INFO    📊 Found 12 events
+2025-11-26 16:52:14,721 INFO [12/41] 🌍 Delhi, India
+2025-11-26 16:52:15,102 INFO    📊 Found 3 events
+2025-11-26 16:52:15,408 INFO [13/41] 🌍 Mumbai, India
+2025-11-26 16:52:15,745 INFO    📊 Found 3 events
+2025-11-26 16:52:16,051 INFO [14/41] 🌍 Bangalore, India
+2025-11-26 16:52:16,437 INFO    📊 Found 26 events
+2025-11-26 16:52:16,747 INFO [15/41] 🌍 Miami, USA
+2025-11-26 16:52:17,258 INFO    📊 Found 36 events
+2025-11-26 16:52:17,567 INFO [16/41] 🌍 Los Angeles, USA
+2025-11-26 16:52:17,939 INFO    📊 Found 5 events
+2025-11-26 16:52:18,245 INFO [17/41] 🌍 Amsterdam, Netherlands
+2025-11-26 16:52:18,693 INFO    📊 Found 9 events
+2025-11-26 16:52:19,000 INFO [18/41] 🌍 Zurich, Switzerland
+2025-11-26 16:52:19,353 INFO    📊 Found 8 events
+2025-11-26 16:52:19,660 INFO [19/41] 🌍 Tel Aviv, Israel
+2025-11-26 16:52:20,015 INFO    📊 Found 0 events
+2025-11-26 16:52:20,320 INFO [20/41] 🌍 Austin, USA
+2025-11-26 16:52:20,737 INFO    📊 Found 2 events
+2025-11-26 16:52:21,043 INFO [21/41] 🌍 Istanbul, Turkey
+2025-11-26 16:52:21,455 INFO    📊 Found 13 events
+2025-11-26 16:52:21,763 INFO [22/41] 🌍 Paris, France
+2025-11-26 16:52:22,109 INFO    📊 Found 13 events
+2025-11-26 16:52:22,413 INFO [23/41] 🌍 Madrid, Spain
+2025-11-26 16:52:22,761 INFO    📊 Found 2 events
+2025-11-26 16:52:23,067 INFO [24/41] 🌍 Rome, Italy
+2025-11-26 16:52:23,422 INFO    📊 Found 1 events
+2025-11-26 16:52:23,728 INFO [25/41] 🌍 Prague, Czech Republic
+2025-11-26 16:52:24,113 INFO    📊 Found 5 events
+2025-11-26 16:52:24,416 INFO [26/41] 🌍 Budapest, Hungary
+2025-11-26 16:52:24,811 INFO    📊 Found 1 events
+2025-11-26 16:52:25,117 INFO [27/41] 🌍 Bucharest, Romania
+2025-11-26 16:52:25,550 INFO    📊 Found 2 events
+2025-11-26 16:52:25,856 INFO [28/41] 🌍 Brussels, Belgium
+2025-11-26 16:52:26,266 INFO    📊 Found 3 events
+2025-11-26 16:52:26,573 INFO [29/41] 🌍 Cape Town, South Africa
+2025-11-26 16:52:26,999 INFO    📊 Found 2 events
+2025-11-26 16:52:27,303 INFO [30/41] 🌍 Nairobi, Kenya
+2025-11-26 16:52:27,706 INFO    📊 Found 6 events
+2025-11-26 16:52:28,013 INFO [31/41] 🌍 Lagos, Nigeria
+2025-11-26 16:52:28,417 INFO    📊 Found 9 events
+2025-11-26 16:52:28,724 INFO [32/41] 🌍 Abu Dhabi, UAE
+2025-11-26 16:52:29,138 INFO    📊 Found 50 events
+2025-11-26 16:52:29,450 INFO [33/41] 🌍 Taipei, Taiwan
+2025-11-26 16:52:29,856 INFO    📊 Found 19 events
+2025-11-26 16:52:30,164 INFO [34/41] 🌍 Manila, Philippines
+2025-11-26 16:52:30,575 INFO    📊 Found 4 events
+2025-11-26 16:52:30,882 INFO [35/41] 🌍 Kuala Lumpur, Malaysia
+2025-11-26 16:52:31,283 INFO    📊 Found 9 events
+2025-11-26 16:52:31,590 INFO [36/41] 🌍 Mexico City, Mexico
+2025-11-26 16:52:32,101 INFO    📊 Found 3 events
+2025-11-26 16:52:32,403 INFO [37/41] 🌍 São Paulo, Brazil
+2025-11-26 16:52:32,817 INFO    📊 Found 2 events
+2025-11-26 16:52:33,121 INFO [38/41] 🌍 Buenos Aires, Argentina
+2025-11-26 16:52:33,534 INFO    📊 Found 4 events
+2025-11-26 16:52:33,837 INFO [39/41] 🌍 Bogotá, Colombia
+2025-11-26 16:52:34,250 INFO    📊 Found 1 events
+2025-11-26 16:52:34,556 INFO [40/41] 🌍 Lima, Peru
+2025-11-26 16:52:34,967 INFO    📊 Found 2 events
+2025-11-26 16:52:35,270 INFO [41/41] 🌍 Beijing, China
+2025-11-26 16:52:35,684 INFO    📊 Found 1 events
+2025-11-26 16:52:35,990 INFO 🎯 API Discovery: 394 new events found
+2025-11-26 16:52:35,990 INFO 🌐 Starting web scraping phase...
+2025-11-26 16:52:36,465 INFO 🔍 Scraping: https://luma.com/discover?category=crypto
+2025-11-26 16:52:43,794 INFO    📋 Found 44 potential events
+2025-11-26 16:53:11,958 INFO 🔍 Scraping: https://luma.com/discover?q=blockchain
+2025-11-26 16:53:18,661 INFO    📋 Found 44 potential events
+2025-11-26 16:53:23,917 INFO 🔍 Scraping: https://luma.com/discover?q=web3
+2025-11-26 16:53:30,991 INFO    📋 Found 44 potential events
+2025-11-26 16:53:33,652 INFO 🎯 Web Scraping: 10 new events found
+2025-11-26 16:53:33,775 INFO 💾 Saved 404 new events
+2025-11-26 16:53:33,775 INFO 📊 Database now contains 404 total events
+2025-11-26 16:53:33,775 INFO 🎉 AUTOMATED SCRAPING COMPLETE!
+2025-11-26 16:53:33,775 INFO 📊 Final Statistics:
+2025-11-26 16:53:33,775 INFO    • Runtime: 88.1 seconds
+2025-11-26 16:53:33,775 INFO    • API calls: 41
+2025-11-26 16:53:33,775 INFO    • Locations processed: 41
+2025-11-26 16:53:33,775 INFO    • New API events: 394
+2025-11-26 16:53:33,775 INFO    • New web events: 10
+2025-11-26 16:53:33,775 INFO    • Total new events: 404
+2025-11-26 16:53:33,775 INFO    • Duplicates prevented: 0
+2025-11-26 16:53:33,775 INFO 💾 Results in: luma_crypto_events_master.xlsx
+2025-11-26 17:02:26,031 INFO 🚀 Starting Automated Hybrid Scraper at 2025-11-26 17:02:26.031830
+2025-11-26 17:02:26,089 INFO 📚 Loaded 404 existing events
+2025-11-26 17:02:26,089 INFO 🚀 Starting API discovery phase...
+2025-11-26 17:02:26,089 INFO [1/41] 🌍 San Francisco, USA
+2025-11-26 17:02:26,519 INFO    📊 Found 10 events
+2025-11-26 17:02:26,822 INFO [2/41] 🌍 New York, USA
+2025-11-26 17:02:27,257 INFO    📊 Found 14 events
+2025-11-26 17:02:27,564 INFO [3/41] 🌍 London, UK
+2025-11-26 17:02:27,940 INFO    📊 Found 23 events
+2025-11-26 17:02:28,246 INFO [4/41] 🌍 Berlin, Germany
+2025-11-26 17:02:28,698 INFO    📊 Found 9 events
+2025-11-26 17:02:29,001 INFO [5/41] 🌍 Singapore
+2025-11-26 17:02:29,446 INFO    📊 Found 3 events
+2025-11-26 17:02:29,752 INFO [6/41] 🌍 Tokyo, Japan
+2025-11-26 17:02:30,188 INFO    📊 Found 21 events
+2025-11-26 17:02:30,496 INFO [7/41] 🌍 Seoul, South Korea
+2025-11-26 17:02:31,147 INFO    📊 Found 12 events
+2025-11-26 17:02:31,455 INFO [8/41] 🌍 Dubai, UAE
+2025-11-26 17:02:32,379 INFO    📊 Found 37 events
+2025-11-26 17:02:32,688 INFO [9/41] 🌍 Toronto, Canada
+2025-11-26 17:02:33,196 INFO    📊 Found 6 events
+2025-11-26 17:02:33,502 INFO [10/41] 🌍 Sydney, Australia
+2025-11-26 17:02:33,912 INFO    📊 Found 3 events
+2025-11-26 17:02:34,218 INFO [11/41] 🌍 Hong Kong
+2025-11-26 17:02:34,569 INFO    📊 Found 12 events
+2025-11-26 17:02:34,877 INFO [12/41] 🌍 Delhi, India
+2025-11-26 17:02:35,243 INFO    📊 Found 3 events
+2025-11-26 17:02:35,550 INFO [13/41] 🌍 Mumbai, India
+2025-11-26 17:02:35,960 INFO    📊 Found 3 events
+2025-11-26 17:02:36,264 INFO [14/41] 🌍 Bangalore, India
+2025-11-26 17:02:36,784 INFO    📊 Found 27 events
+2025-11-26 17:02:37,093 INFO [15/41] 🌍 Miami, USA
+2025-11-26 17:02:37,804 INFO    📊 Found 36 events
+2025-11-26 17:02:38,112 INFO [16/41] 🌍 Los Angeles, USA
+2025-11-26 17:02:38,520 INFO    📊 Found 5 events
+2025-11-26 17:02:38,822 INFO [17/41] 🌍 Amsterdam, Netherlands
+2025-11-26 17:02:39,238 INFO    📊 Found 9 events
+2025-11-26 17:02:39,542 INFO [18/41] 🌍 Zurich, Switzerland
+2025-11-26 17:02:39,954 INFO    📊 Found 8 events
+2025-11-26 17:02:40,260 INFO [19/41] 🌍 Tel Aviv, Israel
+2025-11-26 17:02:40,667 INFO    📊 Found 0 events
+2025-11-26 17:02:40,971 INFO [20/41] 🌍 Austin, USA
+2025-11-26 17:02:41,391 INFO    📊 Found 2 events
+2025-11-26 17:02:41,696 INFO [21/41] 🌍 Istanbul, Turkey
+2025-11-26 17:02:42,035 INFO    📊 Found 13 events
+2025-11-26 17:02:42,341 INFO [22/41] 🌍 Paris, France
+2025-11-26 17:02:42,703 INFO    📊 Found 13 events
+2025-11-26 17:02:43,011 INFO [23/41] 🌍 Madrid, Spain
+2025-11-26 17:02:43,436 INFO    📊 Found 2 events
+2025-11-26 17:02:43,742 INFO [24/41] 🌍 Rome, Italy
+2025-11-26 17:02:44,149 INFO    📊 Found 1 events
+2025-11-26 17:02:44,455 INFO [25/41] 🌍 Prague, Czech Republic
+2025-11-26 17:02:44,792 INFO    📊 Found 5 events
+2025-11-26 17:02:45,095 INFO [26/41] 🌍 Budapest, Hungary
+2025-11-26 17:02:45,431 INFO    📊 Found 1 events
+2025-11-26 17:02:45,737 INFO [27/41] 🌍 Bucharest, Romania
+2025-11-26 17:02:46,076 INFO    📊 Found 2 events
+2025-11-26 17:02:46,378 INFO [28/41] 🌍 Brussels, Belgium
+2025-11-26 17:02:46,711 INFO    📊 Found 3 events
+2025-11-26 17:02:47,017 INFO [29/41] 🌍 Cape Town, South Africa
+2025-11-26 17:02:47,441 INFO    📊 Found 2 events
+2025-11-26 17:02:47,748 INFO [30/41] 🌍 Nairobi, Kenya
+2025-11-26 17:02:48,144 INFO    📊 Found 6 events
+2025-11-26 17:02:48,448 INFO [31/41] 🌍 Lagos, Nigeria
+2025-11-26 17:02:48,863 INFO    📊 Found 9 events
+2025-11-26 17:02:49,170 INFO [32/41] 🌍 Abu Dhabi, UAE
+2025-11-26 17:02:49,835 INFO    📊 Found 50 events
+2025-11-26 17:02:50,145 INFO [33/41] 🌍 Taipei, Taiwan
+2025-11-26 17:02:50,507 INFO    📊 Found 19 events
+2025-11-26 17:02:50,815 INFO [34/41] 🌍 Manila, Philippines
+2025-11-26 17:02:51,218 INFO    📊 Found 4 events
+2025-11-26 17:02:51,524 INFO [35/41] 🌍 Kuala Lumpur, Malaysia
+2025-11-26 17:02:51,861 INFO    📊 Found 9 events
+2025-11-26 17:02:52,165 INFO [36/41] 🌍 Mexico City, Mexico
+2025-11-26 17:02:52,651 INFO    📊 Found 3 events
+2025-11-26 17:02:52,958 INFO [37/41] 🌍 São Paulo, Brazil
+2025-11-26 17:02:53,393 INFO    📊 Found 2 events
+2025-11-26 17:02:53,696 INFO [38/41] 🌍 Buenos Aires, Argentina
+2025-11-26 17:02:54,187 INFO    📊 Found 4 events
+2025-11-26 17:02:54,494 INFO [39/41] 🌍 Bogotá, Colombia
+2025-11-26 17:02:54,900 INFO    📊 Found 1 events
+2025-11-26 17:02:55,206 INFO [40/41] 🌍 Lima, Peru
+2025-11-26 17:02:55,620 INFO    📊 Found 2 events
+2025-11-26 17:02:55,927 INFO [41/41] 🌍 Beijing, China
+2025-11-26 17:02:56,336 INFO    📊 Found 1 events
+2025-11-26 17:02:56,637 INFO 🎯 API Discovery: 1 new events found
+2025-11-26 17:02:56,637 INFO 🌐 Starting web scraping phase...
+2025-11-26 17:02:57,107 INFO 🔍 Scraping: https://luma.com/discover?category=crypto
+2025-11-26 17:03:04,485 INFO    📋 Found 19 potential events
+2025-11-26 17:03:30,513 INFO 🔍 Scraping: https://luma.com/discover?q=blockchain
+2025-11-26 17:03:37,437 INFO    📋 Found 19 potential events
+2025-11-26 17:03:39,448 INFO 🔍 Scraping: https://luma.com/discover?q=web3
+2025-11-26 17:03:46,411 INFO    📋 Found 19 potential events
+2025-11-26 17:03:48,476 INFO 🎯 Web Scraping: 8 new events found
+2025-11-26 17:03:48,593 INFO 💾 Saved 9 new events
+2025-11-26 17:03:48,593 INFO 📊 Database now contains 413 total events
+2025-11-26 17:03:48,593 INFO 🎉 AUTOMATED SCRAPING COMPLETE!
+2025-11-26 17:03:48,593 INFO 📊 Final Statistics:
+2025-11-26 17:03:48,593 INFO    • Runtime: 82.6 seconds
+2025-11-26 17:03:48,593 INFO    • API calls: 41
+2025-11-26 17:03:48,593 INFO    • Locations processed: 41
+2025-11-26 17:03:48,593 INFO    • New API events: 1
+2025-11-26 17:03:48,593 INFO    • New web events: 8
+2025-11-26 17:03:48,593 INFO    • Total new events: 9
+2025-11-26 17:03:48,593 INFO    • Duplicates prevented: 394
+2025-11-26 17:03:48,593 INFO 💾 Results in: luma_crypto_events_master.xlsx
+2025-11-26 17:14:57,008 INFO 🚀 Starting Automated Hybrid Scraper at 2025-11-26 17:14:57.008454
+2025-11-26 17:14:57,067 INFO 📚 Loaded 413 existing events
+2025-11-26 17:14:57,067 INFO 🚀 Starting API discovery phase...
+2025-11-26 17:14:57,067 INFO [1/41] 🌍 San Francisco, USA
+2025-11-26 17:14:57,620 INFO    📊 Found 10 events
+2025-11-26 17:14:57,927 INFO [2/41] 🌍 New York, USA
+2025-11-26 17:14:58,300 INFO    📊 Found 14 events
+2025-11-26 17:14:58,608 INFO [3/41] 🌍 London, UK
+2025-11-26 17:14:59,055 INFO    📊 Found 23 events
+2025-11-26 17:14:59,363 INFO [4/41] 🌍 Berlin, Germany
+2025-11-26 17:14:59,766 INFO    📊 Found 9 events
+2025-11-26 17:15:00,073 INFO [5/41] 🌍 Singapore
+2025-11-26 17:15:02,328 INFO    📊 Found 3 events
+2025-11-26 17:15:02,630 INFO [6/41] 🌍 Tokyo, Japan
+2025-11-26 17:15:03,047 INFO    📊 Found 21 events
+2025-11-26 17:15:03,355 INFO [7/41] 🌍 Seoul, South Korea
+2025-11-26 17:15:03,763 INFO    📊 Found 12 events
+2025-11-26 17:15:04,071 INFO [8/41] 🌍 Dubai, UAE
+2025-11-26 17:15:04,484 INFO    📊 Found 37 events
+2025-11-26 17:15:04,794 INFO [9/41] 🌍 Toronto, Canada
+2025-11-26 17:15:05,505 INFO    📊 Found 6 events
+2025-11-26 17:15:05,810 INFO [10/41] 🌍 Sydney, Australia
+2025-11-26 17:15:06,162 INFO    📊 Found 3 events
+2025-11-26 17:15:06,465 INFO [11/41] 🌍 Hong Kong
+2025-11-26 17:15:06,820 INFO    📊 Found 12 events
+2025-11-26 17:15:07,127 INFO [12/41] 🌍 Delhi, India
+2025-11-26 17:15:07,479 INFO    📊 Found 3 events
+2025-11-26 17:15:07,785 INFO [13/41] 🌍 Mumbai, India
+2025-11-26 17:15:08,165 INFO    📊 Found 3 events
+2025-11-26 17:15:08,471 INFO [14/41] 🌍 Bangalore, India
+2025-11-26 17:15:08,858 INFO    📊 Found 27 events
+2025-11-26 17:15:09,167 INFO [15/41] 🌍 Miami, USA
+2025-11-26 17:15:09,553 INFO    📊 Found 36 events
+2025-11-26 17:15:09,862 INFO [16/41] 🌍 Los Angeles, USA
+2025-11-26 17:15:10,215 INFO    📊 Found 5 events
+2025-11-26 17:15:10,519 INFO [17/41] 🌍 Amsterdam, Netherlands
+2025-11-26 17:15:10,876 INFO    📊 Found 9 events
+2025-11-26 17:15:11,183 INFO [18/41] 🌍 Zurich, Switzerland
+2025-11-26 17:15:11,544 INFO    📊 Found 8 events
+2025-11-26 17:15:11,847 INFO [19/41] 🌍 Tel Aviv, Israel
+2025-11-26 17:15:12,260 INFO    📊 Found 0 events
+2025-11-26 17:15:12,565 INFO [20/41] 🌍 Austin, USA
+2025-11-26 17:15:12,977 INFO    📊 Found 2 events
+2025-11-26 17:15:13,283 INFO [21/41] 🌍 Istanbul, Turkey
+2025-11-26 17:15:13,695 INFO    📊 Found 13 events
+2025-11-26 17:15:13,998 INFO [22/41] 🌍 Paris, France
+2025-11-26 17:15:14,659 INFO    📊 Found 13 events
+2025-11-26 17:15:14,966 INFO [23/41] 🌍 Madrid, Spain
+2025-11-26 17:15:15,306 INFO    📊 Found 2 events
+2025-11-26 17:15:15,612 INFO [24/41] 🌍 Rome, Italy
+2025-11-26 17:15:16,049 INFO    📊 Found 1 events
+2025-11-26 17:15:16,354 INFO [25/41] 🌍 Prague, Czech Republic
+2025-11-26 17:15:16,871 INFO    📊 Found 5 events
+2025-11-26 17:15:17,174 INFO [26/41] 🌍 Budapest, Hungary
+2025-11-26 17:15:17,691 INFO    📊 Found 1 events
+2025-11-26 17:15:17,997 INFO [27/41] 🌍 Bucharest, Romania
+2025-11-26 17:15:18,340 INFO    📊 Found 2 events
+2025-11-26 17:15:18,646 INFO [28/41] 🌍 Brussels, Belgium
+2025-11-26 17:15:19,022 INFO    📊 Found 3 events
+2025-11-26 17:15:19,328 INFO [29/41] 🌍 Cape Town, South Africa
+2025-11-26 17:15:19,739 INFO    📊 Found 2 events
+2025-11-26 17:15:20,045 INFO [30/41] 🌍 Nairobi, Kenya
+2025-11-26 17:15:20,457 INFO    📊 Found 6 events
+2025-11-26 17:15:20,764 INFO [31/41] 🌍 Lagos, Nigeria
+2025-11-26 17:15:21,171 INFO    📊 Found 9 events
+2025-11-26 17:15:21,478 INFO [32/41] 🌍 Abu Dhabi, UAE
+2025-11-26 17:15:21,892 INFO    📊 Found 50 events
+2025-11-26 17:15:22,203 INFO [33/41] 🌍 Taipei, Taiwan
+2025-11-26 17:15:22,615 INFO    📊 Found 19 events
+2025-11-26 17:15:22,923 INFO [34/41] 🌍 Manila, Philippines
+2025-11-26 17:15:23,258 INFO    📊 Found 4 events
+2025-11-26 17:15:23,560 INFO [35/41] 🌍 Kuala Lumpur, Malaysia
+2025-11-26 17:15:23,898 INFO    📊 Found 9 events
+2025-11-26 17:15:24,204 INFO [36/41] 🌍 Mexico City, Mexico
+2025-11-26 17:15:24,651 INFO    📊 Found 3 events
+2025-11-26 17:15:24,956 INFO [37/41] 🌍 São Paulo, Brazil
+2025-11-26 17:15:25,367 INFO    📊 Found 2 events
+2025-11-26 17:15:25,674 INFO [38/41] 🌍 Buenos Aires, Argentina
+2025-11-26 17:15:26,086 INFO    📊 Found 4 events
+2025-11-26 17:15:26,390 INFO [39/41] 🌍 Bogotá, Colombia
+2025-11-26 17:15:26,802 INFO    📊 Found 1 events
+2025-11-26 17:15:27,108 INFO [40/41] 🌍 Lima, Peru
+2025-11-26 17:15:27,526 INFO    📊 Found 2 events
+2025-11-26 17:15:27,828 INFO [41/41] 🌍 Beijing, China
+2025-11-26 17:15:28,352 INFO    📊 Found 1 events
+2025-11-26 17:15:28,658 INFO 🎯 API Discovery: 1 new events found
+2025-11-26 17:15:28,658 INFO 🌐 Starting web scraping phase...
+2025-11-26 17:15:29,136 INFO 🔍 Scraping: https://luma.com/discover?category=crypto
+2025-11-26 17:15:36,509 INFO    📋 Found 19 potential events
+2025-11-26 17:15:52,653 INFO 🔍 Scraping: https://luma.com/discover?q=blockchain
+2025-11-26 17:15:59,719 INFO    📋 Found 19 potential events
+2025-11-26 17:16:02,332 INFO 🔍 Scraping: https://luma.com/discover?q=web3
+2025-11-26 17:16:09,429 INFO    📋 Found 19 potential events
+2025-11-26 17:16:12,083 INFO 🎯 Web Scraping: 4 new events found
+2025-11-26 17:16:12,198 INFO 💾 Saved 5 new events
+2025-11-26 17:16:12,198 INFO 📊 Database now contains 418 total events
+2025-11-26 17:16:12,198 INFO 🎉 AUTOMATED SCRAPING COMPLETE!
+2025-11-26 17:16:12,198 INFO 📊 Final Statistics:
+2025-11-26 17:16:12,198 INFO    • Runtime: 75.2 seconds
+2025-11-26 17:16:12,198 INFO    • API calls: 41
+2025-11-26 17:16:12,198 INFO    • Locations processed: 41
+2025-11-26 17:16:12,198 INFO    • New API events: 1
+2025-11-26 17:16:12,198 INFO    • New web events: 4
+2025-11-26 17:16:12,198 INFO    • Total new events: 5
+2025-11-26 17:16:12,198 INFO    • Duplicates prevented: 394
+2025-11-26 17:16:12,198 INFO 💾 Results in: luma_crypto_events_master.xlsx

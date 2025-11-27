@@ -316,3 +316,17 @@
 2025-11-26 17:16:12,198 INFO    â€¢ Total new events: 5
 2025-11-26 17:16:12,198 INFO    â€¢ Duplicates prevented: 394
 2025-11-26 17:16:12,198 INFO ðŸ’¾ Results in: luma_crypto_events_master.xlsx
+2025-11-27 20:47:29,265 INFO    • Runtime: 531.2 seconds
+2025-11-27 20:47:29,265 INFO    • API calls: 41
+2025-11-27 20:47:29,265 INFO    • Locations processed: 41
+2025-11-27 20:47:29,265 INFO    • New API events: 41
+2025-11-27 20:47:29,265 INFO    • New web events: 0
+2025-11-27 20:47:29,265 INFO    • Total new events: 41
+2025-11-27 20:47:29,265 INFO    • Duplicates prevented: 348
+2025-11-27 21:50:12,347 INFO    • Runtime: 534.0 seconds
+2025-11-27 21:50:12,347 INFO    • API calls: 41
+2025-11-27 21:50:12,347 INFO    • Locations processed: 41
+2025-11-27 21:50:12,347 INFO    • New API events: 390
+2025-11-27 21:50:12,348 INFO    • New web events: 10
+2025-11-27 21:50:12,348 INFO    • Total new events: 400
+2025-11-27 21:50:12,348 INFO    • Duplicates prevented: 0

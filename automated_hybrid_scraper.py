@@ -5,6 +5,7 @@ Combines API discovery + Web scraping with daily automation at 2:00 AM
 Prevents duplicates and maintains comprehensive event database
 """
 
+import os
 import requests
 import time
 import logging
@@ -16,6 +17,7 @@ from datetime import datetime, timezone
 from typing import Dict, List, Optional, Set
 
 import pandas as pd
+from bs4 import BeautifulSoup
 from dateutil import parser as dateparser
 
 # Try to import Playwright (for web scraping component)
@@ -27,7 +29,7 @@ except ImportError:
     print("⚠️  Playwright not available - API-only mode")
 
 # ============= CONFIGURATION =============
-BASE_URL = "https://luma.com"
+BASE_URL = "https://lu.ma"
 BASE_API_URL = "https://api2.luma.com"
 OUTPUT_XLSX = "luma_crypto_events_master.xlsx"
 LOG_FILE = "scraper.log"
@@ -51,8 +53,8 @@ API_HEADERS = {
     "Accept": "application/json",
     "Accept-Language": "en",
     "Accept-Encoding": "gzip, deflate, br, zstd",
-    "Origin": "https://luma.com",
-    "Referer": "https://luma.com/crypto",
+    "Origin": "https://lu.ma",
+    "Referer": "https://lu.ma/crypto",
     "X-Luma-Client-Type": "luma-web",
     "X-Luma-Client-Version": "d12c8aa69edc8a6541453a87c3e5bb74c2d7ba92"
 }
@@ -161,6 +163,7 @@ class AutomatedHybridScraper:
             "locations_processed": 0
         }
         self.existing_ids: Set[str] = set()
+        self.detail_cache: Dict[str, Optional[Dict]] = {}
 
     def load_existing_events(self) -> pd.DataFrame:
         """Load existing events and return DataFrame + set of IDs."""
@@ -235,7 +238,8 @@ class AutomatedHybridScraper:
                 return None
             
             # Build full event URL
-            event_url = f"https://luma.com/{event_id}"
+            slug = (event_data.get("url") or "").strip("/")
+            event_url = self.build_event_url(slug, event_id)
             
             # Extract venue information from correct API field
             geo_data = event_data.get("geo_address_info", {})
@@ -267,21 +271,45 @@ class AutomatedHybridScraper:
             image_url = None
             if cover_image:
                 image_url = cover_image.get("url") or cover_image.get("image_url")
+
+            # Enrich with HTML page to capture description & accurate timeline/links
+            detail_data = self.fetch_event_detail_from_web(slug) if slug else None
+            description = event_data.get("description")
+            start_iso = normalize_datetime(entry.get("start_at"))
+            end_iso = normalize_datetime(entry.get("end_at"))
+            raw_date_text = None
+            if detail_data:
+                description = detail_data.get("description") or description
+                if detail_data.get("startDate"):
+                    raw_date_text = detail_data.get("startDate")
+                    start_iso = normalize_datetime(detail_data["startDate"])
+                if detail_data.get("endDate"):
+                    end_iso = normalize_datetime(detail_data["endDate"])
+                venue = venue or detail_data.get("venue")
+                image_url = image_url or detail_data.get("image")
+                if detail_data.get("ticket_url"):
+                    event_url = detail_data["ticket_url"]
+                extra_tags = detail_data.get("keywords")
+            else:
+                extra_tags = []
             
             return {
                 "external_id": event_id,
+                "event_slug": slug or None,
                 "title": event_data.get("name"),
-                "date_time": normalize_datetime(entry.get("start_at")),
-                "end_time": normalize_datetime(entry.get("end_at")),
+                "date_time": start_iso,
+                "end_time": end_iso,
+                "raw_date_text": raw_date_text,
                 "venue": venue,
                 "organizer": organizer,
-                "description": event_data.get("description"),
-                "category_tags": "crypto,web3,api-sourced",
+                "description": description,
+                "category_tags": self.build_category_tags(extra_tags),
                 "ticket_url": event_url,
                 "image_url": image_url,
                 "guest_count": entry.get("guest_count", 0),
                 "ticket_count": entry.get("ticket_count", 0),
                 "discovery_location": location_name,
+                "timezone": event_data.get("timezone"),
                 "scraped_at": now_iso(),
                 "source": "api-automated",
                 "waitlist_active": entry.get("waitlist_active", False),
@@ -363,6 +391,117 @@ class AutomatedHybridScraper:
         
         logger.info(f"🎯 Web Scraping: {len(web_events)} new events found")
         return web_events
+
+    @staticmethod
+    def build_event_url(slug: Optional[str], event_id: str) -> str:
+        if slug:
+            slug = slug.strip("/")
+            return f"{BASE_URL}/{slug}"
+        return f"{BASE_URL}/{event_id}"
+
+    @staticmethod
+    def build_category_tags(extra_tags: Optional[List[str]]) -> str:
+        tags = ["crypto", "web3", "api-sourced"]
+        if extra_tags:
+            tags.extend(extra_tags)
+        # Remove blanks and preserve order
+        seen = []
+        for tag in tags:
+            if tag and tag not in seen:
+                seen.append(tag)
+        return ",".join(seen)
+
+    def fetch_event_detail_from_web(self, slug: str) -> Optional[Dict]:
+        """Fetch event page HTML and extract description & schedule via JSON-LD."""
+        if not slug:
+            return None
+        slug = slug.strip("/")
+        if slug in self.detail_cache:
+            return self.detail_cache[slug]
+
+        event_url = f"{BASE_URL}/{slug}"
+        headers = {
+            "User-Agent": API_HEADERS["User-Agent"],
+            "Accept": "text/html,application/xhtml+xml;q=0.9,*/*;q=0.8",
+            "Referer": f"{BASE_URL}/discover?category=crypto",
+            "Accept-Language": "en-US,en;q=0.9",
+        }
+        try:
+            response = requests.get(
+                event_url,
+                headers=headers,
+                cookies=self.session.cookies,
+                timeout=20,
+            )
+            response.raise_for_status()
+        except Exception as e:
+            logger.debug(f"Failed to fetch event page for {slug}: {e}")
+            self.detail_cache[slug] = None
+            return None
+
+        soup = BeautifulSoup(response.text, "html.parser")
+        ld_event = self.extract_event_jsonld(soup)
+        if not ld_event:
+            self.detail_cache[slug] = None
+            return None
+
+        description = self.clean_description(ld_event.get("description"))
+        location = ld_event.get("location", {})
+        venue = None
+        if isinstance(location, dict):
+            venue = location.get("name") or location.get("address")
+
+        keywords = []
+        raw_keywords = ld_event.get("keywords") or ld_event.get("category")
+        if raw_keywords:
+            if isinstance(raw_keywords, list):
+                keywords = [str(k).strip() for k in raw_keywords if k]
+            else:
+                keywords = [str(raw_keywords).strip()]
+
+        detail = {
+            "description": description,
+            "startDate": ld_event.get("startDate"),
+            "endDate": ld_event.get("endDate"),
+            "image": ld_event.get("image"),
+            "venue": venue,
+            "keywords": keywords,
+            "ticket_url": ld_event.get("url") if ld_event.get("url", "").startswith("http") else event_url,
+        }
+        self.detail_cache[slug] = detail
+        return detail
+
+    @staticmethod
+    def extract_event_jsonld(soup: BeautifulSoup) -> Optional[Dict]:
+        scripts = soup.find_all("script", attrs={"type": "application/ld+json"})
+        for script in scripts:
+            raw = script.string or script.get_text()
+            if not raw:
+                continue
+            try:
+                data = json.loads(raw)
+            except Exception:
+                continue
+            nodes = data if isinstance(data, list) else [data]
+            for node in nodes:
+                node_type = node.get("@type")
+                if isinstance(node_type, list):
+                    is_event = any(t.lower() == "event" for t in node_type if isinstance(t, str))
+                else:
+                    is_event = isinstance(node_type, str) and node_type.lower() == "event"
+                if is_event:
+                    return node
+        return None
+
+    @staticmethod
+    def clean_description(desc: Optional[str]) -> Optional[str]:
+        if not desc:
+            return None
+        try:
+            text = BeautifulSoup(desc, "html.parser").get_text("\n")
+            return text.strip()
+        except Exception:
+            return desc.strip()
 
     def enhanced_scroll(self, page, timeout=20):
         """Enhanced scrolling for web scraping."""
@@ -567,8 +706,20 @@ class AutomatedHybridScraper:
         if "scraped_at" in combined_df.columns:
             combined_df = combined_df.sort_values("scraped_at", ascending=False)
         
-        # Save to Excel
-        combined_df.to_excel(OUTPUT_XLSX, index=False)
+        # Save to Excel with graceful fallback if the file is open elsewhere
+        try:
+            combined_df.to_excel(OUTPUT_XLSX, index=False)
+        except PermissionError:
+            pending_path = OUTPUT_XLSX + ".pending"
+            combined_df.to_excel(pending_path, index=False)
+            logger.error(
+                "❌ Unable to overwrite %s (file is open?). "
+                "Saved fresh data to %s instead. Close the Excel file and "
+                "replace it manually, or rerun the scraper once it's closed.",
+                OUTPUT_XLSX,
+                pending_path,
+            )
+            raise
         
         total_events = len(combined_df)
         new_events_count = len(new_events)

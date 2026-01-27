@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top List of Crypto Events</title>
+    <link rel="stylesheet" href="events.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header-wrapper">
+            <button class="btn-primary" id="listEventBtn">
+                <i class="fas fa-plus"></i> List Event
+            </button>
+        </div>
+
+        <header class="header">
+            <div class="header-content">
+                <h1 class="main-title">Discover Crypto Events</h1>
+                <p class="subtitle">Connect with the blockchain community worldwide</p>
+            </div>
+        </header>
+
+        <!-- Filters Section -->
+        <section class="filters-section">
+            <div class="filters-container">
+                <div class="filter-group">
+                    <select id="locationFilter" class="filter-select">
+                        <option value="">All Locations</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <select id="dateFilter" class="filter-select">
+                        <option value="">All Dates</option>
+                        <option value="upcoming">Upcoming</option>
+                        <option value="ongoing">Ongoing</option>
+                        <option value="ended">Ended</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <select id="typeFilter" class="filter-select">
+                        <option value="">All Types</option>
+                    </select>
+                </div>
+
+                <button class="btn-reset" id="resetFilters">Reset Filters</button>
+            </div>
+
+            <!-- Status Tabs -->
+            <div class="status-tabs">
+                <button class="tab-btn active" data-status="all">
+                    All <span class="count" id="countAll">0</span>
+                </button>
+                <button class="tab-btn" data-status="upcoming">
+                    Upcoming <span class="count" id="countUpcoming">0</span>
+                </button>
+                <button class="tab-btn" data-status="ongoing">
+                    Ongoing <span class="count" id="countOngoing">0</span>
+                </button>
+                <button class="tab-btn" data-status="ended">
+                    Ended <span class="count" id="countEnded">0</span>
+                </button>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search events...">
+                </div>
+                <div class="view-toggle">
+                    <button class="view-btn active" data-view="grid">
+                        <i class="fas fa-th"></i>
+                    </button>
+                    <button class="view-btn" data-view="list">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Grid -->
+        <section class="events-section">
+            <div id="eventsGrid" class="events-grid">
+                <!-- Events will be dynamically loaded here -->
+            </div>
+
+            <div id="loadingSpinner" class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading events from database...</p>
+            </div>
+
+            <div id="noResults" class="no-results" style="display: none;">
+                <i class="fas fa-calendar-times"></i>
+                <p>No events found matching your criteria</p>
+            </div>
+        </section>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination"></div>
+    </div>
+
+    <!-- Event Detail Modal -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="modal-body">
+                <div class="modal-left">
+                    <div class="modal-image-container">
+                        <img id="modalImage" src="" alt="Event Image" class="modal-image">
+                    </div>
+                    <div class="modal-status-badge" id="modalStatusBadge"></div>
+                </div>
+
+                <div class="modal-right">
+                    <h2 id="modalTitle" class="modal-title"></h2>
+
+                    <div class="modal-info">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <span id="modalVenue"></span>
+                                <a id="modalViewMap" href="#" target="_blank" class="view-map-link">View Map</a>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <i class="fas fa-calendar"></i>
+                            <span id="modalDate"></span>
+                        </div>
+
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span id="modalTime"></span>
+                        </div>
+
+                        <div class="info-item" id="modalOrganizerContainer">
+                            <i class="fas fa-user"></i>
+                            <div>
+                                <div id="modalOrganizer"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-tags" id="modalTags"></div>
+
+                    <div class="modal-actions">
+                        <a id="modalTicketBtn" href="#" target="_blank" class="btn-primary btn-large">
+                            <i class="fas fa-ticket-alt"></i> Visit Website
+                        </a>
+                        <button id="modalShareBtn" class="btn-secondary btn-large">
+                            <i class="fas fa-share-alt"></i> Share
+                        </button>
+                        <button id="modalCalendarBtn" class="btn-secondary btn-large">
+                            <i class="fas fa-calendar-plus"></i> Add to calendar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calendar Modal -->
+    <div id="calendarModal" class="modal">
+        <div class="modal-content share-modal-content">
+            <button class="modal-close" id="closeCalendarModal">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <h2 class="share-title">Add to Calendar</h2>
+
+            <div class="share-buttons">
+                <button class="share-btn google" id="calendarGoogle" title="Add to Google Calendar">
+                    <i class="fab fa-google"></i>
+                    <span>Google</span>
+                </button>
+                <button class="share-btn outlook" id="calendarOutlook" title="Add to Outlook">
+                    <i class="fab fa-microsoft"></i>
+                    <span>Outlook</span>
+                </button>
+                <button class="share-btn apple" id="calendarApple" title="Add to Apple Calendar">
+                    <i class="fab fa-apple"></i>
+                    <span>Apple</span>
+                </button>
+                <button class="share-btn ics" id="calendarICS" title="Download .ics file">
+                    <i class="fas fa-download"></i>
+                    <span>Download</span>
+                </button>
+            </div>
+
+            <p class="share-text">Choose your calendar application or download the .ics file to import manually.</p>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div id="shareModal" class="modal">
+        <div class="modal-content share-modal-content">
+            <button class="modal-close" id="closeShareModal">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <h2 class="share-title">Share Event</h2>
+
+            <div class="share-buttons">
+                <button class="share-btn twitter" id="shareTwitter" title="Share on Twitter">
+                    <i class="fab fa-x-twitter"></i>
+                </button>
+                <button class="share-btn linkedin" id="shareLinkedIn" title="Share on LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </button>
+                <button class="share-btn whatsapp" id="shareWhatsApp" title="Share on WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </button>
+                <button class="share-btn facebook" id="shareFacebook" title="Share on Facebook">
+                    <i class="fab fa-facebook"></i>
+                </button>
+                <button class="share-btn email" id="shareEmail" title="Share via Email">
+                    <i class="fas fa-envelope"></i>
+                </button>
+            </div>
+
+            <p class="share-text">Or copy the link below to share your event.</p>
+
+            <div class="share-link-container">
+                <input type="text" id="shareLink" class="share-link-input" readonly>
+                <button id="copyLinkBtn" class="btn-copy">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="events_api.js"></script>
+</body>
+
+</html>

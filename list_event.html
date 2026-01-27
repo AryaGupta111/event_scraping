@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Event – Top List of Crypto Events</title>
+    <link rel="stylesheet" href="events.css">
+    <link rel="stylesheet" href="list_event.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="create-container">
+        <header class="create-header">
+            <div class="create-header-left">
+                <a href="events_api.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Events</span>
+                </a>
+                <h1 class="create-title">Create Event</h1>
+            </div>
+        </header>
+
+        <div class="create-layout">
+            <!-- Sidebar Steps -->
+            <aside class="create-sidebar">
+                <h2 class="sidebar-title">Steps</h2>
+                <nav class="sidebar-nav">
+                    <button class="sidebar-step active" data-step="1">
+                        <span class="step-icon"><i class="fas fa-clipboard-list"></i></span>
+                        <div class="step-text">
+                            <span class="step-label">Event Details</span>
+                            <span class="step-sub">Add all of your event details</span>
+                        </div>
+                    </button>
+                    <button class="sidebar-step" data-step="2">
+                        <span class="step-icon"><i class="fas fa-user"></i></span>
+                        <div class="step-text">
+                            <span class="step-label">Organizer Details</span>
+                            <span class="step-sub">Add organizer information</span>
+                        </div>
+                    </button>
+                    <button class="sidebar-step" data-step="3">
+                        <span class="step-icon"><i class="fas fa-ticket-alt"></i></span>
+                        <div class="step-text">
+                            <span class="step-label">Tickets</span>
+                            <span class="step-sub">Set up your tickets</span>
+                        </div>
+                    </button>
+                    <button class="sidebar-step" data-step="4">
+                        <span class="step-icon"><i class="fas fa-handshake"></i></span>
+                        <div class="step-text">
+                            <span class="step-label">Sponsors</span>
+                            <span class="step-sub">Add sponsors</span>
+                        </div>
+                    </button>
+                    <button class="sidebar-step" data-step="5">
+                        <span class="step-icon"><i class="fas fa-users"></i></span>
+                        <div class="step-text">
+                            <span class="step-label">Partners</span>
+                            <span class="step-sub">Add partners</span>
+                        </div>
+                    </button>
+                    <button class="sidebar-step" data-step="6">
+                        <span class="step-icon"><i class="fas fa-question-circle"></i></span>
+                        <div class="step-text">
+                            <span class="step-label">FAQs</span>
+                            <span class="step-sub">Add FAQs</span>
+                        </div>
+                    </button>
+                    <button class="sidebar-step" data-step="7">
+                        <span class="step-icon"><i class="fas fa-file-alt"></i></span>
+                        <div class="step-text">
+                            <span class="step-label">Contents</span>
+                            <span class="step-sub">Add contents</span>
+                        </div>
+                    </button>
+                </nav>
+            </aside>
+
+            <!-- Main form + preview -->
+            <main class="create-main">
+                <form id="listEventForm" class="create-form">
+                    <div class="create-main-grid">
+                        <!-- Step content -->
+                        <section class="step-panel">
+                            <!-- Step 1: Event Details -->
+                            <div class="form-step active" data-step="1">
+                                <div class="form-card">
+                                    <h2 class="form-step-title">Event Details</h2>
+                                    <p class="form-step-desc">Add all of your event details.</p>
+
+                                    <div class="form-group">
+                                        <label for="title">Event Title <span class="required">*</span></label>
+                                        <input type="text" id="title" name="title" required placeholder="Enter Event Title">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="description">Event Description <span class="required">*</span></label>
+                                        <textarea id="description" name="description" rows="5" placeholder="Enter text here..."></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Upload Event Banner</label>
+                                        <div class="banner-dropzone" id="bannerDropzone">
+                                            <div class="banner-dropzone-inner">
+                                                <div class="banner-icon"><i class="fas fa-upload"></i></div>
+                                                <p>Drag & drop an image, or <span class="banner-click">click to select</span></p>
+                                                <small>JPG, PNG, GIF, WebP. Max 5MB. Recommended 1200 × 630 px.</small>
+                                            </div>
+                                            <input type="file" id="banner_file" accept="image/jpeg,image/png,image/gif,image/webp" class="banner-file-input">
+                                            <p class="banner-or">Or paste image URL below (stored as link).</p>
+                                            <input type="url" id="image_url" name="image_url" placeholder="https://example.com/event-banner.jpg">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group checkbox-inline">
+                                        <label>
+                                            <input type="checkbox" id="date_only">
+                                            <span>Date only (no specific time)</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="start_date">Start Date <span class="required">*</span></label>
+                                            <input type="date" id="start_date" name="start_date" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="end_date">End Date</label>
+                                            <input type="date" id="end_date" name="end_date">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row time-row" id="timeRow">
+                                        <div class="form-group">
+                                            <label for="start_time">Start Time</label>
+                                            <input type="time" id="start_time" name="start_time">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="end_time_input">End Time</label>
+                                            <input type="time" id="end_time_input" name="end_time_input">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="venue">Venue</label>
+                                            <input type="text" id="venue" name="venue" placeholder="Event venue">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="city">City</label>
+                                            <input type="text" id="city" name="city" placeholder="City">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="state">State/Province</label>
+                                            <input type="text" id="state" name="state" placeholder="State or province">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="country">Country</label>
+                                            <input type="text" id="country" name="country" placeholder="Country">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="event_type">Event Type <span class="required">*</span></label>
+                                        <select id="event_type" name="event_type">
+                                            <option value="">Select type</option>
+                                            <option value="conference">Conference</option>
+                                            <option value="meetup">Meetup</option>
+                                            <option value="workshop">Workshop</option>
+                                            <option value="seminar">Seminar</option>
+                                            <option value="hackathon">Hackathon</option>
+                                            <option value="webinar">Webinar</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="category_tags">Tags</label>
+                                        <input type="text" id="category_tags" name="category_tags" placeholder="e.g. crypto, web3, blockchain">
+                                        <span class="form-hint">Enter tags to categorize your event (comma-separated).</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="ticket_url">Website</label>
+                                        <input type="url" id="ticket_url" name="ticket_url" placeholder="https://example.com">
+                                    </div>
+
+                                    <!-- Bottom navigation -->
+                                    <div class="wizard-actions">
+                                        <button type="button" class="btn-secondary btn-form wizard-btn-prev">
+                                            Back
+                                        </button>
+                                        <div class="wizard-actions-right">
+                                            <button type="button" class="btn-primary btn-form wizard-btn-next">
+                                                Continue
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Organizer Details -->
+                            <div class="form-step" data-step="2">
+                                <div class="form-card">
+                                    <h2 class="form-step-title">Organizer Details</h2>
+                                    <p class="form-step-desc">Add organizer information.</p>
+
+                                    <div class="form-group">
+                                        <label for="org_name">Your Name</label>
+                                        <input type="text" id="org_name" name="org_name" placeholder="Your full name">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="org_email">Your Email</label>
+                                        <input type="email" id="org_email" name="org_email" placeholder="Your email address">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="org_company">Organizer/Company Name</label>
+                                        <input type="text" id="org_company" name="org_company" placeholder="Name of organizing company/organization">
+                                        <span class="form-hint">This will be displayed as the event organizer.</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="org_website">Organizer Website</label>
+                                        <input type="url" id="org_website" name="org_website" placeholder="https://example.com">
+                                    </div>
+
+                                    <h3 class="subsection-title">Social Media Links</h3>
+                                    <div class="form-group">
+                                        <label for="org_twitter">Twitter</label>
+                                        <input type="url" id="org_twitter" name="org_twitter" placeholder="https://twitter.com/...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="org_facebook">Facebook</label>
+                                        <input type="url" id="org_facebook" name="org_facebook" placeholder="https://facebook.com/...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="org_telegram">Telegram</label>
+                                        <input type="url" id="org_telegram" name="org_telegram" placeholder="https://t.me/...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="org_linkedin">LinkedIn</label>
+                                        <input type="url" id="org_linkedin" name="org_linkedin" placeholder="https://linkedin.com/...">
+                                    </div>
+
+                                    <!-- Bottom navigation -->
+                                    <div class="wizard-actions">
+                                        <button type="button" class="btn-secondary btn-form wizard-btn-prev">
+                                            Back
+                                        </button>
+                                        <div class="wizard-actions-right">
+                                            <button type="button" class="btn-primary btn-form wizard-btn-next">
+                                                Continue
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Tickets -->
+                            <div class="form-step" data-step="3">
+                                <div class="form-card">
+                                    <h2 class="form-step-title">Tickets</h2>
+                                    <p class="form-step-desc">Set up your tickets.</p>
+
+                                    <div class="ticket-form-row">
+                                        <div class="form-group">
+                                            <label for="ticket_name">Ticket Name <span class="required">*</span></label>
+                                            <input type="text" id="ticket_name" placeholder="e.g. General Admission">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ticket_type">Ticket Type <span class="required">*</span></label>
+                                            <select id="ticket_type">
+                                                <option value="Free">Free</option>
+                                                <option value="Paid">Paid</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="ticket_description">Description</label>
+                                        <textarea id="ticket_description" rows="4" placeholder="Enter description"></textarea>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="ticket_quantity">Quantity (optional)</label>
+                                            <input type="number" id="ticket_quantity" placeholder="Leave blank for unlimited">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ticket_price">Price (for paid tickets)</label>
+                                            <input type="number" id="ticket_price" placeholder="0">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="ticket_sales_start">Sales Start (optional)</label>
+                                            <input type="date" id="ticket_sales_start">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ticket_sales_end">Sales End (optional)</label>
+                                            <input type="date" id="ticket_sales_end">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="ticket_url_step">Ticket URL (optional)</label>
+                                        <input type="url" id="ticket_url_step" placeholder="Enter ticket URL">
+                                    </div>
+
+                                    <button type="button" id="addTicketBtn" class="btn-primary btn-inline">
+                                        Add Ticket
+                                    </button>
+
+                                    <div class="list-empty" id="ticketsEmpty">No tickets added yet</div>
+                                    <ul class="pill-list" id="ticketsList"></ul>
+
+                                    <!-- Bottom navigation -->
+                                    <div class="wizard-actions">
+                                        <button type="button" class="btn-secondary btn-form wizard-btn-prev">
+                                            Back
+                                        </button>
+                                        <div class="wizard-actions-right">
+                                            <button type="button" class="btn-primary btn-form wizard-btn-next">
+                                                Continue
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 4: Sponsors -->
+                            <div class="form-step" data-step="4">
+                                <div class="form-card">
+                                    <h2 class="form-step-title">Sponsors</h2>
+                                    <p class="form-step-desc">Add sponsors.</p>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="sponsor_name">Organization Name <span class="required">*</span></label>
+                                            <input type="text" id="sponsor_name" placeholder="Organization name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sponsor_tier">Tier/Type</label>
+                                            <input type="text" id="sponsor_tier" placeholder="e.g. Gold, Silver, Media Partner">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="sponsor_logo">Logo URL</label>
+                                            <input type="url" id="sponsor_logo" placeholder="https://example.com/logo.png">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sponsor_website">Website</label>
+                                            <input type="url" id="sponsor_website" placeholder="https://example.com">
+                                        </div>
+                                    </div>
+
+                                    <button type="button" id="addSponsorBtn" class="btn-primary btn-inline">
+                                        Add Sponsor
+                                    </button>
+
+                                    <div class="list-empty" id="sponsorsEmpty">No sponsors added yet</div>
+                                    <ul class="pill-list" id="sponsorsList"></ul>
+
+                                    <!-- Bottom navigation -->
+                                    <div class="wizard-actions">
+                                        <button type="button" class="btn-secondary btn-form wizard-btn-prev">
+                                            Back
+                                        </button>
+                                        <div class="wizard-actions-right">
+                                            <button type="button" class="btn-primary btn-form wizard-btn-next">
+                                                Continue
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 5: Partners -->
+                            <div class="form-step" data-step="5">
+                                <div class="form-card">
+                                    <h2 class="form-step-title">Partners</h2>
+                                    <p class="form-step-desc">Add partners.</p>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="partner_name">Organization Name <span class="required">*</span></label>
+                                            <input type="text" id="partner_name" placeholder="Organization name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="partner_type">Type</label>
+                                            <input type="text" id="partner_type" placeholder="e.g. Gold, Silver, Media Partner">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="partner_logo">Logo URL</label>
+                                            <input type="url" id="partner_logo" placeholder="https://example.com/logo.png">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="partner_website">Website</label>
+                                            <input type="url" id="partner_website" placeholder="https://example.com">
+                                        </div>
+                                    </div>
+
+                                    <button type="button" id="addPartnerBtn" class="btn-primary btn-inline">
+                                        Add Partner
+                                    </button>
+
+                                    <div class="list-empty" id="partnersEmpty">No partners added yet</div>
+                                    <ul class="pill-list" id="partnersList"></ul>
+
+                                    <!-- Bottom navigation -->
+                                    <div class="wizard-actions">
+                                        <button type="button" class="btn-secondary btn-form wizard-btn-prev">
+                                            Back
+                                        </button>
+                                        <div class="wizard-actions-right">
+                                            <button type="button" class="btn-primary btn-form wizard-btn-next">
+                                                Continue
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 6: FAQs -->
+                            <div class="form-step" data-step="6">
+                                <div class="form-card">
+                                    <h2 class="form-step-title">FAQs</h2>
+                                    <p class="form-step-desc">Add frequently asked questions.</p>
+
+                                    <div class="form-group">
+                                        <label for="faq_question">Question <span class="required">*</span></label>
+                                        <input type="text" id="faq_question" placeholder="e.g. What is the refund policy?">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="faq_answer">Answer <span class="required">*</span></label>
+                                        <textarea id="faq_answer" rows="4" placeholder="Enter answer"></textarea>
+                                    </div>
+
+                                    <button type="button" id="addFaqBtn" class="btn-primary btn-inline">
+                                        Add FAQ
+                                    </button>
+
+                                    <div class="list-empty" id="faqsEmpty">No FAQs added yet</div>
+                                    <ul class="pill-list" id="faqsList"></ul>
+
+                                    <!-- Bottom navigation -->
+                                    <div class="wizard-actions">
+                                        <button type="button" class="btn-secondary btn-form wizard-btn-prev">
+                                            Back
+                                        </button>
+                                        <div class="wizard-actions-right">
+                                            <button type="button" class="btn-primary btn-form wizard-btn-next">
+                                                Continue
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 7: Contents -->
+                            <div class="form-step" data-step="7">
+                                <div class="form-card">
+                                    <h2 class="form-step-title">Contents</h2>
+                                    <p class="form-step-desc">Add additional content for your event.</p>
+
+                                    <div class="form-group">
+                                        <label for="content_heading">Heading <span class="required">*</span></label>
+                                        <input type="text" id="content_heading" placeholder="e.g. What is the refund policy?">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="content_body">Body <span class="required">*</span></label>
+                                        <textarea id="content_body" rows="4" placeholder="Enter body"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="content_alignment">Alignment <span class="required">*</span></label>
+                                        <select id="content_alignment">
+                                            <option value="left">Left</option>
+                                            <option value="center">Center</option>
+                                            <option value="right">Right</option>
+                                        </select>
+                                    </div>
+
+                                    <button type="button" id="addContentBtn" class="btn-primary btn-inline">
+                                        Add Content
+                                    </button>
+
+                                    <div class="list-empty" id="contentsEmpty">No contents added yet</div>
+                                    <ul class="pill-list" id="contentsList"></ul>
+
+                                    <!-- Bottom navigation -->
+                                    <div class="wizard-actions">
+                                        <button type="button" class="btn-secondary btn-form wizard-btn-prev">
+                                            Back
+                                        </button>
+                                        <div class="wizard-actions-right">
+                                            <button type="submit" class="btn-primary btn-form wizard-btn-submit">
+                                                Submit Event
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Event Card Preview -->
+                        <aside class="preview-panel">
+                            <div class="preview-card">
+                                <div class="preview-banner" id="previewBanner">
+                                    <div class="preview-banner-placeholder" id="previewBannerPlaceholder">
+                                        <i class="fas fa-image"></i>
+                                        <span>Event Banner Preview</span>
+                                    </div>
+                                    <img id="previewBannerImg" class="preview-banner-img" src="" alt="Event banner" style="display: none;">
+                                </div>
+                                <div class="preview-body">
+                                    <div class="preview-type" id="previewType">CONFERENCE</div>
+                                    <div class="preview-title" id="previewTitle">Event Title</div>
+                                    <div class="preview-meta">
+                                        <div class="preview-line" id="previewDate">Date will appear here</div>
+                                        <div class="preview-line" id="previewVenue">Venue will appear here</div>
+                                    </div>
+                                    <div class="preview-tags">
+                                        <span class="badge free">Free</span>
+                                        <span class="badge event">EVENT</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </form>
+
+                <!-- Success / error states below the form -->
+                <div id="formSuccess" class="form-success" style="display: none;">
+                    <div class="success-card">
+                        <i class="fas fa-check-circle success-icon"></i>
+                        <h2>Event listed successfully</h2>
+                        <p>Your event has been saved and added to the events list.</p>
+                        <a href="events_api.html" class="btn-primary btn-large">
+                            <i class="fas fa-calendar-alt"></i> Back to Events
+                        </a>
+                    </div>
+                </div>
+
+                <div id="formError" class="form-error" style="display: none;">
+                    <div class="error-card">
+                        <i class="fas fa-exclamation-circle error-icon"></i>
+                        <h2>Something went wrong</h2>
+                        <p id="formErrorMessage"></p>
+                        <button type="button" id="dismissError" class="btn-secondary">Try again</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="list_event.js"></script>
+</body>
+</html>

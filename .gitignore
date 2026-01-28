@@ -54,7 +54,7 @@ desktop.ini
 # Environment variables
 .env
 .env.local
-
+.env.example
 # Temporary files
 *.tmp
 *.temp

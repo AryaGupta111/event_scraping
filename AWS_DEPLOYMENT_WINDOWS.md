@@ -321,7 +321,7 @@ nano .env
 MONGODB_URI=mongodb+srv://admin:BGfaJ003nDZIFIdT@cluster0.c9yuy9y.mongodb.net/?appName=Cluster0
 PORT=5000
 API_HOST=0.0.0.0
-PYTHON_VERSION=3.11.0
+PYTHON_VERSION=3.12.0
 
 # Save: Ctrl+O, Enter, Ctrl+X
 ```

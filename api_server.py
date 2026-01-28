@@ -23,16 +23,35 @@ CORS(app)  # Enable CORS for frontend
 # Initialize database
 db = DatabaseManager()
 
+def clean_event_data(event):
+    """Remove internal/sensitive fields from event data"""
+    # Fields to keep (whitelist approach - more secure)
+    allowed_fields = [
+        'external_id', 'title', 'date_time', 'end_time', 'venue',
+        'organizer', 'description', 'category_tags', 'ticket_url',
+        'image_url', 'guest_count', 'ticket_count', 'timezone',
+        'event_type', 'discovery_location'
+    ]
+    
+    # Create clean event dict with only allowed fields
+    clean_event = {k: v for k, v in event.items() if k in allowed_fields}
+    
+    return clean_event
+
 @app.route('/api/events', methods=['GET'])
 def get_events():
     """Get all events with optional filtering"""
     try:
-        # Get query parameters
-        limit = request.args.get('limit', type=int)
+        # Get query parameters with default limit
+        limit = request.args.get('limit', 100, type=int)  # Default 100 events
         skip = request.args.get('skip', 0, type=int)
         search = request.args.get('search', '')
         location = request.args.get('location', '')
         status = request.args.get('status', '')
+        
+        # Enforce maximum limit for security
+        if limit > 500:
+            limit = 500
         
         # Build filters
         filters = {}
@@ -59,11 +78,14 @@ def get_events():
         events = db.get_all_events(filters=filters, limit=limit, skip=skip)
         total = db.count_events(filters=filters)
         
+        # Clean events data - remove internal fields
+        clean_events = [clean_event_data(event) for event in events]
+        
         return jsonify({
             'success': True,
-            'events': events,
+            'events': clean_events,
             'total': total,
-            'count': len(events)
+            'count': len(clean_events)
         })
         
     except Exception as e:
@@ -77,7 +99,9 @@ def get_event(event_id):
         event = db.get_event_by_id(event_id)
         
         if event:
-            return jsonify({'success': True, 'event': event})
+            # Clean the event data
+            clean_event = clean_event_data(event)
+            return jsonify({'success': True, 'event': clean_event})
         else:
             return jsonify({'success': False, 'error': 'Event not found'}), 404
             

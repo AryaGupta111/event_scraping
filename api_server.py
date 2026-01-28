@@ -26,10 +26,11 @@ db = DatabaseManager()
 def clean_event_data(event):
     """Remove internal/sensitive fields from event data"""
     # Fields to keep (whitelist approach - more secure)
+    # Removed: ticket_url, image_url (hidden from API response)
     allowed_fields = [
         'external_id', 'title', 'date_time', 'end_time', 'venue',
-        'organizer', 'description', 'category_tags', 'ticket_url',
-        'image_url', 'guest_count', 'ticket_count', 'timezone',
+        'organizer', 'description', 'category_tags',
+        'guest_count', 'ticket_count', 'timezone',
         'event_type', 'discovery_location'
     ]
     

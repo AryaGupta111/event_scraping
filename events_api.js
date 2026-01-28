@@ -1,8 +1,6 @@
 // API Configuration
-// Use environment variable in production, fallback to localhost for development
-const API_BASE_URL = (typeof window !== 'undefined' && window.location.hostname === 'localhost') 
-    ? 'http://localhost:5000/api' 
-    : 'https://your-render-app.onrender.com/api'; // Replace with your Render backend URL
+// Since Nginx proxies /api to Flask, we can use relative URLs
+const API_BASE_URL = '/api';
 
 // Global variables
 let allEvents = [];

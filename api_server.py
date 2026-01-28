@@ -1,4 +1,4 @@
-"""
+b"""
 Flask API Server for Events
 Serves events and images from MongoDB
 """

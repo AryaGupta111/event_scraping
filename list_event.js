@@ -1,8 +1,6 @@
 (function () {
-    // API Configuration - Use production URL when not on localhost
-    const API_BASE = (typeof window !== 'undefined' && window.location.hostname === 'localhost') 
-        ? 'http://localhost:5000/api' 
-        : 'https://your-render-app.onrender.com/api'; // Replace with your Render backend URL
+    // API Configuration - Use relative URL since Nginx proxies /api to Flask
+    const API_BASE = '/api';
 
     const form = document.getElementById('listEventForm');
     const steps = document.querySelectorAll('.form-step');

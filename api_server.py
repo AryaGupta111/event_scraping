@@ -26,7 +26,7 @@ db = DatabaseManager()
 def clean_event_data(event):
     """Remove internal/sensitive fields from event data"""
     # Fields to keep (whitelist approach - more secure)
-    # Removed: ticket_url, image_url (hidden from API response)
+    # Removed: ticket_url, image_url (hidden from public API response)
     allowed_fields = [
         'external_id', 'title', 'date_time', 'end_time', 'venue',
         'organizer', 'description', 'category_tags',
@@ -39,9 +39,19 @@ def clean_event_data(event):
     
     return clean_event
 
+def internal_clean_event_data(event):
+    """Remove only MongoDB internal fields, keep URLs for frontend"""
+    # Remove only MongoDB internal fields
+    internal_fields = ['_id', 'scraped_at', 'updated_at', 'source']
+    
+    # Create clean event dict
+    clean_event = {k: v for k, v in event.items() if k not in internal_fields}
+    
+    return clean_event
+
 @app.route('/api/events', methods=['GET'])
 def get_events():
-    """Get all events with optional filtering"""
+    """Get all events with optional filtering (PUBLIC - URLs hidden)"""
     try:
         # Get query parameters with default limit
         limit = request.args.get('limit', 100, type=int)  # Default 100 events
@@ -79,8 +89,58 @@ def get_events():
         events = db.get_all_events(filters=filters, limit=limit, skip=skip)
         total = db.count_events(filters=filters)
         
-        # Clean events data - remove internal fields
+        # Clean events data - remove internal fields AND URLs (public API)
         clean_events = [clean_event_data(event) for event in events]
+        
+        return jsonify({
+            'success': True,
+            'events': clean_events,
+            'total': total,
+            'count': len(clean_events)
+        })
+        
+    except Exception as e:
+        logger.error(f"Error getting events: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/internal/events', methods=['GET'])
+def get_internal_events():
+    """Get all events with URLs (INTERNAL - for frontend use only)"""
+    try:
+        # Get query parameters with default limit
+        limit = request.args.get('limit', type=int)
+        skip = request.args.get('skip', 0, type=int)
+        search = request.args.get('search', '')
+        location = request.args.get('location', '')
+        status = request.args.get('status', '')
+        
+        # Build filters
+        filters = {}
+        
+        if search:
+            filters['$text'] = {'$search': search}
+        
+        if location:
+            filters['venue'] = {'$regex': location, '$options': 'i'}
+        
+        if status:
+            now = datetime.now().isoformat()
+            if status == 'upcoming':
+                filters['date_time'] = {'$gt': now}
+            elif status == 'ended':
+                filters['end_time'] = {'$lt': now}
+            elif status == 'ongoing':
+                filters['$and'] = [
+                    {'date_time': {'$lte': now}},
+                    {'end_time': {'$gte': now}}
+                ]
+        
+        # Get events
+        events = db.get_all_events(filters=filters, limit=limit, skip=skip)
+        total = db.count_events(filters=filters)
+        
+        # Clean events data - remove only MongoDB internal fields, keep URLs
+        clean_events = [internal_clean_event_data(event) for event in events]
         
         return jsonify({
             'success': True,
@@ -229,10 +289,11 @@ def index():
         'name': 'Crypto Events API',
         'version': '1.0.0',
         'endpoints': {
-            '/api/events': 'Get all events (supports filtering)',
-            '/api/events/<id>': 'Get single event',
-            '/api/images/<id>': 'Get event image',
-            '/api/user/list-event': 'POST: Submit user-listed event (user collection)',
+            '/api/events': 'Get all events (PUBLIC - URLs hidden)',
+            '/api/internal/events': 'Get all events with URLs (INTERNAL - for frontend)',
+            '/api/events/<id>': 'Get single event (PUBLIC)',
+            '/api/images/<id>': 'Get event image URL',
+            '/api/user/list-event': 'POST: Submit user-listed event',
             '/api/stats': 'Get database statistics',
             '/api/health': 'Health check'
         }

@@ -116,8 +116,9 @@ body {
 /* List Event Button Wrapper */
 .list-event-wrapper {
     display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
+    justify-content: flex-end;
+    margin-bottom: 40px;
+    padding: 0 20px;
 }
 
 .btn-primary {
@@ -865,7 +866,9 @@ body {
     }
     
     .list-event-wrapper {
-        margin-bottom: 20px;
+        justify-content: center;
+        margin-bottom: 24px;
+        padding: 0 20px;
     }
     
     .filters-container {

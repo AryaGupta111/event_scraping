@@ -24,7 +24,8 @@ async function loadEvents() {
     showLoading(true);
     
     try {
-        const response = await fetch(`${API_BASE_URL}/events`);
+        // Use internal API endpoint that includes URLs
+        const response = await fetch(`${API_BASE_URL}/internal/events`);
         
         if (!response.ok) {
             throw new Error('Failed to load events from API');

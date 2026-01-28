@@ -36,13 +36,6 @@ body {
 }
 
 /* Header Section */
-.header-wrapper {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 20px;
-    padding: 0 20px;
-}
-
 .header {
     padding: 50px 0 40px;
     text-align: center;
@@ -52,7 +45,7 @@ body {
     animation: gradientShift 15s ease infinite;
     border-radius: 24px;
     overflow: hidden;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 .header::before {
@@ -118,6 +111,13 @@ body {
     line-height: 1.5;
     text-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
     font-weight: 400;
+}
+
+/* List Event Button Wrapper */
+.list-event-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
 }
 
 .btn-primary {
@@ -851,6 +851,7 @@ body {
     .header {
         padding: 40px 0 30px;
         border-radius: 16px;
+        margin-bottom: 20px;
     }
     
     .main-title {
@@ -863,9 +864,8 @@ body {
         max-width: 90%;
     }
     
-    .header-wrapper {
-        justify-content: center;
-        margin-bottom: 16px;
+    .list-event-wrapper {
+        margin-bottom: 20px;
     }
     
     .filters-container {

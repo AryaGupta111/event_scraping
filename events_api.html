@@ -7,18 +7,88 @@
     <title>Top List of Crypto Events</title>
     <link rel="stylesheet" href="events.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <div class="container">
-        <!-- Header Section -->
-        <header class="header">
-            <div class="header-content">
-                <h1 class="main-title">Discover Crypto Events</h1>
-                <p class="subtitle">Connect with the blockchain community worldwide</p>
+    <!-- BFM Times Navbar -->
+    <nav class="bfm-navbar">
+        <div class="bfm-navbar-inner">
+            <div class="bfm-logo">
+                <a href="https://bfmtimes.com/">
+                    <img src="bfm-times-logo.png" alt="BFM Times" class="bfm-logo-img">
+                </a>
             </div>
-        </header>
+            <ul class="bfm-nav-menu">
+                <li class="bfm-nav-item bfm-nav-highlight"><a href="https://news-ai.bfmtimes.com/" target="_blank"
+                        rel="noopener">News AI</a></li>
+                <li class="bfm-nav-item"><a href="https://bfmtimes.com/crypto/">Crypto</a></li>
+                <li class="bfm-nav-item"><a href="https://bfmtimes.com/academy/">Academy</a></li>
+                <li class="bfm-nav-item"><a href="https://bfmtimes.com/news/">News</a></li>
+                <li class="bfm-nav-item"><a href="https://bfmtimes.com/ai/">AI</a></li>
+                <li class="bfm-nav-item"><a href="https://bfmtimes.com/finance/">Finance</a></li>
+                <li class="bfm-nav-item bfm-has-dropdown">
+                    <a href="#">Top List <i class="fas fa-chevron-down"></i></a>
+                    <ul class="bfm-dropdown">
+                        <li><a href="https://bfmtimes.com/top-monthly-icos-2026/">Top Monthly ICOs 2026</a></li>
+                        <li><a href="https://bfmtimes.com/top-monthly-presales-feb-2026/">Top Monthly Presales</a></li>
+                        <li><a href="https://bfmtimes.com/best-crypto-to-buy-top-10-february-2026/">Best Crypto to Buy
+                                Now</a></li>
+                        <li><a href="https://bfmtimes.com/best-crypto-exchanges/">Best Crypto Exchanges</a></li>
+                    </ul>
+                </li>
+                <li class="bfm-nav-item"><a href="https://bfmtimes.com/influencers/">Influencers</a></li>
+                <li class="bfm-nav-item"><a href="https://bfmtimes.com/accelerator/">Accelerator</a></li>
+                <li class="bfm-nav-item bfm-has-dropdown">
+                    <a href="#">Tools <i class="fas fa-chevron-down"></i></a>
+                    <ul class="bfm-dropdown">
+                        <li><a href="https://bfmtimes.com/market-live/">Market Live</a></li>
+                        <li><a href="https://bfmtimes.com/converter/">Converter</a></li>
+                        <li><a href="https://bfmtimes.com/exchanges/">Exchanges</a></li>
+                        <li><a href="https://treasury.bfmtimes.com/">Treasuries</a></li>
+                        <li><a href="https://tokensale.bfmtimes.com/">Token Sale</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="bfm-nav-actions">
+                <button class="bfm-search-btn" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+                <a href="https://bfmtimes.com/advertise/" class="bfm-advertise-btn">Advertise With Us</a>
+            </div>
+        </div>
+    </nav>
 
+    <!-- Trending Topics Bar -->
+    <div class="bfm-trending-bar">
+        <div class="bfm-trending-inner">
+            <span class="bfm-trending-icon"><i class="fas fa-arrow-trend-up"></i></span>
+            <ul class="bfm-trending-links">
+                <li><a href="https://bfmtimes.com/tag/bitcoin/">Bitcoin</a></li>
+                <li><a href="https://bfmtimes.com/tag/xrp/">xrp</a></li>
+                <li><a href="https://bfmtimes.com/tag/solana/">solana</a></li>
+                <li><a href="https://bfmtimes.com/tag/crypto-education/">crypto education</a></li>
+                <li><a href="https://bfmtimes.com/tag/digital-assets/">digital assets</a></li>
+                <li><a href="https://bfmtimes.com/tag/blockchain-security/">Blockchain Security</a></li>
+                <li><a href="https://bfmtimes.com/tag/federal-reserve/">Federal Reserve</a></li>
+                <li><a href="https://bfmtimes.com/tag/blockchain-education/">blockchain education</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-content">
+            <span class="header-badge">🌐 Explore 500+ Events Worldwide</span>
+            <h1 class="main-title">Discover Crypto Events</h1>
+            <p class="subtitle">Connect with the blockchain community worldwide — conferences, meetups, hackathons &
+                more</p>
+        </div>
+    </header>
+
+    <div class="container">
         <!-- List Event Button -->
         <div class="list-event-wrapper">
             <button class="btn-primary" id="listEventBtn">

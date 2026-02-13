@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,77 @@
     <link rel="stylesheet" href="events.css">
     <link rel="stylesheet" href="list_event.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
+    <!-- BFM Times Navbar -->
+    <nav class="bfm-navbar">
+        <div class="bfm-navbar-inner">
+            <div class="bfm-logo">
+                <a href="https://bfmtimes.com/">
+                    <img src="bfm-times-logo.png" alt="BFM Times" class="bfm-logo-img">
+                </a>
+            </div>
+            <ul class="bfm-nav-menu">
+                <li class="bfm-nav-item bfm-nav-highlight"><a href="https://news-ai.bfmtimes.com/" target="_blank"
+                        rel="noopener">News AI</a></li>
+                <li class="bfm-nav-item"><a href="https://bfmtimes.com/crypto/">Crypto</a></li>
+                <li class="bfm-nav-item"><a href="https://bfmtimes.com/academy/">Academy</a></li>
+                <li class="bfm-nav-item"><a href="https://bfmtimes.com/news/">News</a></li>
+                <li class="bfm-nav-item"><a href="https://bfmtimes.com/ai/">AI</a></li>
+                <li class="bfm-nav-item"><a href="https://bfmtimes.com/finance/">Finance</a></li>
+                <li class="bfm-nav-item bfm-has-dropdown">
+                    <a href="#">Top List <i class="fas fa-chevron-down"></i></a>
+                    <ul class="bfm-dropdown">
+                        <li><a href="https://bfmtimes.com/top-monthly-icos-2026/">Top Monthly ICOs 2026</a></li>
+                        <li><a href="https://bfmtimes.com/top-monthly-presales-feb-2026/">Top Monthly Presales</a></li>
+                        <li><a href="https://bfmtimes.com/best-crypto-to-buy-top-10-february-2026/">Best Crypto to Buy
+                                Now</a></li>
+                        <li><a href="https://bfmtimes.com/best-crypto-exchanges/">Best Crypto Exchanges</a></li>
+                    </ul>
+                </li>
+                <li class="bfm-nav-item"><a href="https://bfmtimes.com/influencers/">Influencers</a></li>
+                <li class="bfm-nav-item"><a href="https://bfmtimes.com/accelerator/">Accelerator</a></li>
+                <li class="bfm-nav-item bfm-has-dropdown">
+                    <a href="#">Tools <i class="fas fa-chevron-down"></i></a>
+                    <ul class="bfm-dropdown">
+                        <li><a href="https://bfmtimes.com/market-live/">Market Live</a></li>
+                        <li><a href="https://bfmtimes.com/converter/">Converter</a></li>
+                        <li><a href="https://bfmtimes.com/exchanges/">Exchanges</a></li>
+                        <li><a href="https://treasury.bfmtimes.com/">Treasuries</a></li>
+                        <li><a href="https://tokensale.bfmtimes.com/">Token Sale</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="bfm-nav-actions">
+                <button class="bfm-search-btn" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+                <a href="https://bfmtimes.com/advertise/" class="bfm-advertise-btn">Advertise With Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Trending Topics Bar -->
+    <div class="bfm-trending-bar">
+        <div class="bfm-trending-inner">
+            <span class="bfm-trending-icon"><i class="fas fa-arrow-trend-up"></i></span>
+            <ul class="bfm-trending-links">
+                <li><a href="https://bfmtimes.com/tag/bitcoin/">Bitcoin</a></li>
+                <li><a href="https://bfmtimes.com/tag/xrp/">xrp</a></li>
+                <li><a href="https://bfmtimes.com/tag/solana/">solana</a></li>
+                <li><a href="https://bfmtimes.com/tag/crypto-education/">crypto education</a></li>
+                <li><a href="https://bfmtimes.com/tag/digital-assets/">digital assets</a></li>
+                <li><a href="https://bfmtimes.com/tag/blockchain-security/">Blockchain Security</a></li>
+                <li><a href="https://bfmtimes.com/tag/federal-reserve/">Federal Reserve</a></li>
+                <li><a href="https://bfmtimes.com/tag/blockchain-education/">blockchain education</a></li>
+            </ul>
+        </div>
+    </div>
+
     <div class="create-container">
         <header class="create-header">
             <div class="create-header-left">
@@ -91,12 +161,15 @@
 
                                     <div class="form-group">
                                         <label for="title">Event Title <span class="required">*</span></label>
-                                        <input type="text" id="title" name="title" required placeholder="Enter Event Title">
+                                        <input type="text" id="title" name="title" required
+                                            placeholder="Enter Event Title">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="description">Event Description <span class="required">*</span></label>
-                                        <textarea id="description" name="description" rows="5" placeholder="Enter text here..."></textarea>
+                                        <label for="description">Event Description <span
+                                                class="required">*</span></label>
+                                        <textarea id="description" name="description" rows="5"
+                                            placeholder="Enter text here..."></textarea>
                                     </div>
 
                                     <div class="form-group">
@@ -104,12 +177,16 @@
                                         <div class="banner-dropzone" id="bannerDropzone">
                                             <div class="banner-dropzone-inner">
                                                 <div class="banner-icon"><i class="fas fa-upload"></i></div>
-                                                <p>Drag & drop an image, or <span class="banner-click">click to select</span></p>
+                                                <p>Drag & drop an image, or <span class="banner-click">click to
+                                                        select</span></p>
                                                 <small>JPG, PNG, GIF, WebP. Max 5MB. Recommended 1200 × 630 px.</small>
                                             </div>
-                                            <input type="file" id="banner_file" accept="image/jpeg,image/png,image/gif,image/webp" class="banner-file-input">
+                                            <input type="file" id="banner_file"
+                                                accept="image/jpeg,image/png,image/gif,image/webp"
+                                                class="banner-file-input">
                                             <p class="banner-or">Or paste image URL below (stored as link).</p>
-                                            <input type="url" id="image_url" name="image_url" placeholder="https://example.com/event-banner.jpg">
+                                            <input type="url" id="image_url" name="image_url"
+                                                placeholder="https://example.com/event-banner.jpg">
                                         </div>
                                     </div>
 
@@ -180,13 +257,16 @@
 
                                     <div class="form-group">
                                         <label for="category_tags">Tags</label>
-                                        <input type="text" id="category_tags" name="category_tags" placeholder="e.g. crypto, web3, blockchain">
-                                        <span class="form-hint">Enter tags to categorize your event (comma-separated).</span>
+                                        <input type="text" id="category_tags" name="category_tags"
+                                            placeholder="e.g. crypto, web3, blockchain">
+                                        <span class="form-hint">Enter tags to categorize your event
+                                            (comma-separated).</span>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="ticket_url">Website</label>
-                                        <input type="url" id="ticket_url" name="ticket_url" placeholder="https://example.com">
+                                        <input type="url" id="ticket_url" name="ticket_url"
+                                            placeholder="https://example.com">
                                     </div>
 
                                     <!-- Bottom navigation -->
@@ -216,36 +296,43 @@
 
                                     <div class="form-group">
                                         <label for="org_email">Your Email</label>
-                                        <input type="email" id="org_email" name="org_email" placeholder="Your email address">
+                                        <input type="email" id="org_email" name="org_email"
+                                            placeholder="Your email address">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="org_company">Organizer/Company Name</label>
-                                        <input type="text" id="org_company" name="org_company" placeholder="Name of organizing company/organization">
+                                        <input type="text" id="org_company" name="org_company"
+                                            placeholder="Name of organizing company/organization">
                                         <span class="form-hint">This will be displayed as the event organizer.</span>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="org_website">Organizer Website</label>
-                                        <input type="url" id="org_website" name="org_website" placeholder="https://example.com">
+                                        <input type="url" id="org_website" name="org_website"
+                                            placeholder="https://example.com">
                                     </div>
 
                                     <h3 class="subsection-title">Social Media Links</h3>
                                     <div class="form-group">
                                         <label for="org_twitter">Twitter</label>
-                                        <input type="url" id="org_twitter" name="org_twitter" placeholder="https://twitter.com/...">
+                                        <input type="url" id="org_twitter" name="org_twitter"
+                                            placeholder="https://twitter.com/...">
                                     </div>
                                     <div class="form-group">
                                         <label for="org_facebook">Facebook</label>
-                                        <input type="url" id="org_facebook" name="org_facebook" placeholder="https://facebook.com/...">
+                                        <input type="url" id="org_facebook" name="org_facebook"
+                                            placeholder="https://facebook.com/...">
                                     </div>
                                     <div class="form-group">
                                         <label for="org_telegram">Telegram</label>
-                                        <input type="url" id="org_telegram" name="org_telegram" placeholder="https://t.me/...">
+                                        <input type="url" id="org_telegram" name="org_telegram"
+                                            placeholder="https://t.me/...">
                                     </div>
                                     <div class="form-group">
                                         <label for="org_linkedin">LinkedIn</label>
-                                        <input type="url" id="org_linkedin" name="org_linkedin" placeholder="https://linkedin.com/...">
+                                        <input type="url" id="org_linkedin" name="org_linkedin"
+                                            placeholder="https://linkedin.com/...">
                                     </div>
 
                                     <!-- Bottom navigation -->
@@ -284,13 +371,15 @@
 
                                     <div class="form-group">
                                         <label for="ticket_description">Description</label>
-                                        <textarea id="ticket_description" rows="4" placeholder="Enter description"></textarea>
+                                        <textarea id="ticket_description" rows="4"
+                                            placeholder="Enter description"></textarea>
                                     </div>
 
                                     <div class="form-row">
                                         <div class="form-group">
                                             <label for="ticket_quantity">Quantity (optional)</label>
-                                            <input type="number" id="ticket_quantity" placeholder="Leave blank for unlimited">
+                                            <input type="number" id="ticket_quantity"
+                                                placeholder="Leave blank for unlimited">
                                         </div>
                                         <div class="form-group">
                                             <label for="ticket_price">Price (for paid tickets)</label>
@@ -343,19 +432,22 @@
 
                                     <div class="form-row">
                                         <div class="form-group">
-                                            <label for="sponsor_name">Organization Name <span class="required">*</span></label>
+                                            <label for="sponsor_name">Organization Name <span
+                                                    class="required">*</span></label>
                                             <input type="text" id="sponsor_name" placeholder="Organization name">
                                         </div>
                                         <div class="form-group">
                                             <label for="sponsor_tier">Tier/Type</label>
-                                            <input type="text" id="sponsor_tier" placeholder="e.g. Gold, Silver, Media Partner">
+                                            <input type="text" id="sponsor_tier"
+                                                placeholder="e.g. Gold, Silver, Media Partner">
                                         </div>
                                     </div>
 
                                     <div class="form-row">
                                         <div class="form-group">
                                             <label for="sponsor_logo">Logo URL</label>
-                                            <input type="url" id="sponsor_logo" placeholder="https://example.com/logo.png">
+                                            <input type="url" id="sponsor_logo"
+                                                placeholder="https://example.com/logo.png">
                                         </div>
                                         <div class="form-group">
                                             <label for="sponsor_website">Website</label>
@@ -392,19 +484,22 @@
 
                                     <div class="form-row">
                                         <div class="form-group">
-                                            <label for="partner_name">Organization Name <span class="required">*</span></label>
+                                            <label for="partner_name">Organization Name <span
+                                                    class="required">*</span></label>
                                             <input type="text" id="partner_name" placeholder="Organization name">
                                         </div>
                                         <div class="form-group">
                                             <label for="partner_type">Type</label>
-                                            <input type="text" id="partner_type" placeholder="e.g. Gold, Silver, Media Partner">
+                                            <input type="text" id="partner_type"
+                                                placeholder="e.g. Gold, Silver, Media Partner">
                                         </div>
                                     </div>
 
                                     <div class="form-row">
                                         <div class="form-group">
                                             <label for="partner_logo">Logo URL</label>
-                                            <input type="url" id="partner_logo" placeholder="https://example.com/logo.png">
+                                            <input type="url" id="partner_logo"
+                                                placeholder="https://example.com/logo.png">
                                         </div>
                                         <div class="form-group">
                                             <label for="partner_website">Website</label>
@@ -441,7 +536,8 @@
 
                                     <div class="form-group">
                                         <label for="faq_question">Question <span class="required">*</span></label>
-                                        <input type="text" id="faq_question" placeholder="e.g. What is the refund policy?">
+                                        <input type="text" id="faq_question"
+                                            placeholder="e.g. What is the refund policy?">
                                     </div>
                                     <div class="form-group">
                                         <label for="faq_answer">Answer <span class="required">*</span></label>
@@ -477,7 +573,8 @@
 
                                     <div class="form-group">
                                         <label for="content_heading">Heading <span class="required">*</span></label>
-                                        <input type="text" id="content_heading" placeholder="e.g. What is the refund policy?">
+                                        <input type="text" id="content_heading"
+                                            placeholder="e.g. What is the refund policy?">
                                     </div>
                                     <div class="form-group">
                                         <label for="content_body">Body <span class="required">*</span></label>
@@ -522,7 +619,8 @@
                                         <i class="fas fa-image"></i>
                                         <span>Event Banner Preview</span>
                                     </div>
-                                    <img id="previewBannerImg" class="preview-banner-img" src="" alt="Event banner" style="display: none;">
+                                    <img id="previewBannerImg" class="preview-banner-img" src="" alt="Event banner"
+                                        style="display: none;">
                                 </div>
                                 <div class="preview-body">
                                     <div class="preview-type" id="previewType">CONFERENCE</div>
@@ -567,4 +665,5 @@
 
     <script src="list_event.js"></script>
 </body>
+
 </html>

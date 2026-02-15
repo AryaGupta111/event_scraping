@@ -62,3 +62,7 @@ desktop.ini
 
 # Test files
 test_*.html
+
+
+# Static data files
+static_events_data.js

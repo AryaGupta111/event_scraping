@@ -20,40 +20,55 @@ document.addEventListener('DOMContentLoaded', () => {
 // Load events from API
 async function loadEvents() {
     showLoading(true);
-    
+
     try {
         // Use internal API endpoint that includes URLs
         const response = await fetch(`${API_BASE_URL}/internal/events`);
-        
+
         if (!response.ok) {
             throw new Error('Failed to load events from API');
         }
-        
+
         const data = await response.json();
-        
+
         if (data.success) {
             allEvents = data.events.map(event => ({
                 ...event,
                 status: getEventStatus(event)
             }));
-            
+
             filteredEvents = [...allEvents];
-            
+
             populateFilters();
             updateEventCounts();
             displayEvents();
         } else {
             throw new Error(data.error || 'Failed to load events');
         }
-        
+
     } catch (error) {
-        console.error('Error loading events:', error);
-        showNoResults(true);
-        document.getElementById('loadingSpinner').innerHTML = `
-            <i class="fas fa-exclamation-triangle"></i>
-            <p>Failed to load events from database.</p>
-            <p style="font-size: 0.9rem; margin-top: 10px;">Make sure the API server is running: python api_server.py</p>
-        `;
+        console.warn('API unavailable, loading static data for UI preview:', error.message);
+
+        // Fallback to static mock data if available
+        if (typeof STATIC_EVENTS !== 'undefined' && STATIC_EVENTS.length > 0) {
+            allEvents = STATIC_EVENTS.map(event => ({
+                ...event,
+                status: getEventStatus(event)
+            }));
+
+            filteredEvents = [...allEvents];
+
+            populateFilters();
+            updateEventCounts();
+            displayEvents();
+        } else {
+            showNoResults(true);
+            document.getElementById('loadingSpinner').innerHTML = `
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Failed to load events from database.</p>
+                <p style="font-size: 0.9rem; margin-top: 10px;">Make sure the API server is running: python api_server.py</p>
+            `;
+        }
     } finally {
         showLoading(false);
     }
@@ -64,9 +79,9 @@ function getEventStatus(event) {
     const now = new Date();
     const startDate = event.date_time ? new Date(event.date_time) : null;
     const endDate = event.end_time ? new Date(event.end_time) : null;
-    
+
     if (!startDate) return 'upcoming';
-    
+
     if (endDate) {
         if (now < startDate) return 'upcoming';
         if (now >= startDate && now <= endDate) return 'ongoing';
@@ -78,7 +93,7 @@ function getEventStatus(event) {
         if (now > dayAfterStart) return 'ended';
         return 'ongoing';
     }
-    
+
     return 'upcoming';
 }
 
@@ -88,7 +103,7 @@ function getImageUrl(event) {
     if (event.image_url && event.image_url !== 'null' && event.image_url !== 'None') {
         return event.image_url;
     }
-    
+
     // Fallback to placeholder SVG
     return `data:image/svg+xml,${encodeURIComponent(`
         <svg xmlns="http://www.w3.org/2000/svg" width="400" height="220" viewBox="0 0 400 220">
@@ -99,7 +114,7 @@ function getImageUrl(event) {
                 </linearGradient>
             </defs>
             <rect width="400" height="220" fill="url(#grad)"/>
-            <text x="50%" y="50%" font-family="Arial" font-size="20" font-weight="bold" 
+            <text x="50%" y="50%" font-family="Geist Sans, sans-serif" font-size="20" font-weight="bold" 
                   fill="white" text-anchor="middle" dominant-baseline="middle">
                 Crypto Event
             </text>
@@ -111,30 +126,32 @@ function getImageUrl(event) {
 function createEventCard(event) {
     const statusClass = `status-${event.status}`;
     const statusText = event.status.charAt(0).toUpperCase() + event.status.slice(1);
-    
-    const tags = event.category_tags ? 
+
+    const tags = event.category_tags ?
         event.category_tags.split(',')
             .filter(tag => tag.trim())
             .slice(0, 3)
             .map(tag => `<span class="event-tag-small">${capitalizeWords(tag.trim())}</span>`)
             .join('') : '';
-    
+
     const imageUrl = getImageUrl(event);
     const dateStr = formatEventDate(event.date_time);
     const timeStr = formatEventTime(event.date_time, event.end_time);
-    
+
     return `
         <div class="event-card" data-id="${event.external_id}">
             <div class="event-image-container">
                 <img src="${imageUrl}" 
                      alt="${escapeHtml(event.title)}" 
                      class="event-image">
-                <div class="event-status-badge ${statusClass}">${statusText}</div>
-                <div class="event-tags-overlay">
-                    ${tags}
-                </div>
             </div>
             <div class="event-content">
+                <div class="event-card-badges">
+                    <div class="event-status-badge ${statusClass}">${statusText}</div>
+                    <div class="event-tags-inline">
+                        ${tags}
+                    </div>
+                </div>
                 <h3 class="event-title">${escapeHtml(event.title || 'Untitled Event')}</h3>
                 <div class="event-info">
                     <div class="info-row">
@@ -148,6 +165,10 @@ function createEventCard(event) {
                     <div class="info-row">
                         <i class="fas fa-map-marker-alt"></i>
                         <span>${escapeHtml(event.venue || 'Location TBA')}</span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fas fa-user"></i>
+                        <span>${escapeHtml(event.organizer || 'Organizer TBA')}</span>
                     </div>
                 </div>
             </div>
@@ -165,7 +186,7 @@ function populateFilters() {
         option.textContent = location;
         locationFilter.appendChild(option);
     });
-    
+
     const types = new Set();
     allEvents.forEach(event => {
         if (event.category_tags) {
@@ -175,7 +196,7 @@ function populateFilters() {
             });
         }
     });
-    
+
     const typeFilter = document.getElementById('typeFilter');
     [...types].sort().forEach(type => {
         const option = document.createElement('option');
@@ -192,7 +213,7 @@ function extractLocation(venue) {
 }
 
 function capitalizeWords(str) {
-    return str.split(/[\s-_]/).map(word => 
+    return str.split(/[\s-_]/).map(word =>
         word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
     ).join(' ');
 }
@@ -202,7 +223,7 @@ function initializeEventListeners() {
     document.getElementById('dateFilter').addEventListener('change', applyFilters);
     document.getElementById('typeFilter').addEventListener('change', applyFilters);
     document.getElementById('resetFilters').addEventListener('click', resetFilters);
-    
+
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -212,9 +233,9 @@ function initializeEventListeners() {
             applyFilters();
         });
     });
-    
+
     document.getElementById('searchInput').addEventListener('input', debounce(applyFilters, 300));
-    
+
     document.querySelectorAll('.view-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
@@ -228,25 +249,25 @@ function initializeEventListeners() {
             }
         });
     });
-    
+
     document.getElementById('closeModal').addEventListener('click', closeEventModal);
     document.getElementById('closeShareModal').addEventListener('click', closeShareModal);
     document.getElementById('closeCalendarModal').addEventListener('click', closeCalendarModal);
     document.getElementById('modalShareBtn').addEventListener('click', openShareModal);
     document.getElementById('modalCalendarBtn').addEventListener('click', openCalendarModal);
     document.getElementById('copyLinkBtn').addEventListener('click', copyShareLink);
-    
+
     document.getElementById('calendarGoogle').addEventListener('click', () => addToCalendarService('google'));
     document.getElementById('calendarOutlook').addEventListener('click', () => addToCalendarService('outlook'));
     document.getElementById('calendarApple').addEventListener('click', () => addToCalendarService('apple'));
     document.getElementById('calendarICS').addEventListener('click', () => addToCalendarService('ics'));
-    
+
     document.getElementById('shareTwitter').addEventListener('click', () => shareOn('twitter'));
     document.getElementById('shareLinkedIn').addEventListener('click', () => shareOn('linkedin'));
     document.getElementById('shareWhatsApp').addEventListener('click', () => shareOn('whatsapp'));
     document.getElementById('shareFacebook').addEventListener('click', () => shareOn('facebook'));
     document.getElementById('shareEmail').addEventListener('click', () => shareOn('email'));
-    
+
     document.getElementById('eventModal').addEventListener('click', (e) => {
         if (e.target.id === 'eventModal') closeEventModal();
     });
@@ -256,7 +277,7 @@ function initializeEventListeners() {
     document.getElementById('calendarModal').addEventListener('click', (e) => {
         if (e.target.id === 'calendarModal') closeCalendarModal();
     });
-    
+
     document.getElementById('listEventBtn').addEventListener('click', () => {
         window.location.href = 'list_event.html';
     });
@@ -267,13 +288,13 @@ function applyFilters() {
     const dateFilter = document.getElementById('dateFilter').value;
     const typeFilter = document.getElementById('typeFilter').value;
     const searchQuery = document.getElementById('searchInput').value.toLowerCase();
-    
+
     filteredEvents = allEvents.filter(event => {
         if (currentStatus !== 'all' && event.status !== currentStatus) return false;
         if (locationFilter && !extractLocation(event.venue)?.includes(locationFilter)) return false;
         if (dateFilter && event.status !== dateFilter) return false;
         if (typeFilter && !event.category_tags?.includes(typeFilter)) return false;
-        
+
         if (searchQuery) {
             const searchableText = [
                 event.title,
@@ -282,13 +303,13 @@ function applyFilters() {
                 event.organizer,
                 event.category_tags
             ].filter(Boolean).join(' ').toLowerCase();
-            
+
             if (!searchableText.includes(searchQuery)) return false;
         }
-        
+
         return true;
     });
-    
+
     currentPage = 1;
     updateEventCounts();
     displayEvents();
@@ -300,11 +321,11 @@ function resetFilters() {
     document.getElementById('typeFilter').value = '';
     document.getElementById('searchInput').value = '';
     currentStatus = 'all';
-    
+
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.status === 'all');
     });
-    
+
     applyFilters();
 }
 
@@ -315,7 +336,7 @@ function updateEventCounts() {
         ongoing: allEvents.filter(e => e.status === 'ongoing').length,
         ended: allEvents.filter(e => e.status === 'ended').length
     };
-    
+
     document.getElementById('countAll').textContent = counts.all;
     document.getElementById('countUpcoming').textContent = counts.upcoming;
     document.getElementById('countOngoing').textContent = counts.ongoing;
@@ -327,44 +348,44 @@ function displayEvents() {
     const startIndex = (currentPage - 1) * eventsPerPage;
     const endIndex = startIndex + eventsPerPage;
     const eventsToShow = filteredEvents.slice(startIndex, endIndex);
-    
+
     if (eventsToShow.length === 0) {
         grid.innerHTML = '';
         showNoResults(true);
         return;
     }
-    
+
     showNoResults(false);
-    
+
     grid.innerHTML = eventsToShow.map(event => createEventCard(event)).join('');
-    
+
     document.querySelectorAll('.event-card').forEach((card, index) => {
         card.addEventListener('click', () => {
             openEventModal(eventsToShow[index]);
         });
     });
-    
+
     renderPagination();
 }
 
 function openEventModal(event) {
     currentEvent = event;
-    
+
     const modal = document.getElementById('eventModal');
     const statusClass = `status-${event.status}`;
     const statusText = event.status.charAt(0).toUpperCase() + event.status.slice(1);
-    
+
     const imageUrl = getImageUrl(currentEvent);
     const modalImage = document.getElementById('modalImage');
     modalImage.src = imageUrl;
-    
+
     const badge = document.getElementById('modalStatusBadge');
     badge.className = `modal-status-badge ${statusClass}`;
     badge.textContent = statusText;
-    
+
     document.getElementById('modalTitle').textContent = event.title || 'Untitled Event';
     document.getElementById('modalVenue').textContent = event.venue || 'Location TBA';
-    
+
     const viewMapLink = document.getElementById('modalViewMap');
     if (event.venue) {
         viewMapLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.venue)}`;
@@ -372,13 +393,13 @@ function openEventModal(event) {
     } else {
         viewMapLink.style.display = 'none';
     }
-    
+
     const dateStr = formatEventDateRange(event.date_time, event.end_time);
     document.getElementById('modalDate').textContent = dateStr;
-    
+
     const timeStr = formatEventTime(event.date_time, event.end_time);
     document.getElementById('modalTime').textContent = timeStr;
-    
+
     const organizerContainer = document.getElementById('modalOrganizerContainer');
     if (event.organizer) {
         document.getElementById('modalOrganizer').innerHTML = `
@@ -388,7 +409,7 @@ function openEventModal(event) {
     } else {
         organizerContainer.style.display = 'none';
     }
-    
+
     const tagsContainer = document.getElementById('modalTags');
     if (event.category_tags) {
         const tags = event.category_tags.split(',')
@@ -399,7 +420,7 @@ function openEventModal(event) {
     } else {
         tagsContainer.innerHTML = '';
     }
-    
+
     const ticketBtn = document.getElementById('modalTicketBtn');
     if (event.ticket_url) {
         ticketBtn.href = event.ticket_url;
@@ -407,7 +428,7 @@ function openEventModal(event) {
     } else {
         ticketBtn.style.display = 'none';
     }
-    
+
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
@@ -416,10 +437,10 @@ function formatEventDate(dateStr) {
     if (!dateStr) return 'Date TBA';
     try {
         const date = new Date(dateStr);
-        return date.toLocaleDateString('en-US', { 
-            month: 'short', 
-            day: 'numeric', 
-            year: 'numeric' 
+        return date.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
         });
     } catch {
         return 'Date TBA';
@@ -430,22 +451,22 @@ function formatEventTime(startStr, endStr) {
     if (!startStr) return 'Time TBA';
     try {
         const start = new Date(startStr);
-        const startTime = start.toLocaleTimeString('en-US', { 
-            hour: 'numeric', 
+        const startTime = start.toLocaleTimeString('en-US', {
+            hour: 'numeric',
             minute: '2-digit',
-            hour12: true 
+            hour12: true
         });
-        
+
         if (endStr) {
             const end = new Date(endStr);
-            const endTime = end.toLocaleTimeString('en-US', { 
-                hour: 'numeric', 
+            const endTime = end.toLocaleTimeString('en-US', {
+                hour: 'numeric',
                 minute: '2-digit',
-                hour12: true 
+                hour12: true
             });
             return `${startTime} - ${endTime}`;
         }
-        
+
         return startTime;
     } catch {
         return 'Time TBA';
@@ -456,25 +477,25 @@ function formatEventDateRange(startStr, endStr) {
     if (!startStr) return 'Date TBA';
     try {
         const start = new Date(startStr);
-        const startFormatted = start.toLocaleDateString('en-US', { 
-            month: 'short', 
-            day: 'numeric', 
-            year: 'numeric' 
+        const startFormatted = start.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
         });
-        
+
         if (endStr) {
             const end = new Date(endStr);
-            const endFormatted = end.toLocaleDateString('en-US', { 
-                month: 'short', 
-                day: 'numeric', 
-                year: 'numeric' 
+            const endFormatted = end.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
             });
-            
+
             if (startFormatted !== endFormatted) {
                 return `${startFormatted} - ${endFormatted}`;
             }
         }
-        
+
         return startFormatted;
     } catch {
         return 'Date TBA';
@@ -488,10 +509,10 @@ function closeEventModal() {
 
 function openShareModal() {
     if (!currentEvent) return;
-    
+
     const shareLink = currentEvent.ticket_url || window.location.href;
     document.getElementById('shareLink').value = shareLink;
-    
+
     document.getElementById('shareModal').classList.add('active');
 }
 
@@ -503,11 +524,11 @@ function copyShareLink() {
     const input = document.getElementById('shareLink');
     input.select();
     document.execCommand('copy');
-    
+
     const btn = document.getElementById('copyLinkBtn');
     const originalText = btn.innerHTML;
     btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-    
+
     setTimeout(() => {
         btn.innerHTML = originalText;
     }, 2000);
@@ -515,13 +536,13 @@ function copyShareLink() {
 
 function shareOn(platform) {
     if (!currentEvent) return;
-    
+
     const url = encodeURIComponent(currentEvent.ticket_url || window.location.href);
     const title = encodeURIComponent(currentEvent.title || 'Crypto Event');
     const text = encodeURIComponent(`Check out this event: ${currentEvent.title}`);
-    
+
     let shareUrl = '';
-    
+
     switch (platform) {
         case 'twitter':
             shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
@@ -539,7 +560,7 @@ function shareOn(platform) {
             shareUrl = `mailto:?subject=${title}&body=${text}%20${url}`;
             break;
     }
-    
+
     if (shareUrl) {
         window.open(shareUrl, '_blank', 'width=600,height=400');
     }
@@ -556,13 +577,13 @@ function closeCalendarModal() {
 
 function addToCalendarService(service) {
     if (!currentEvent) return;
-    
+
     const event = currentEvent;
     const title = event.title || 'Crypto Event';
     const description = event.description || '';
     const location = event.venue || '';
     const organizer = event.organizer || '';
-    
+
     // Parse dates
     let startDate, endDate;
     try {
@@ -572,18 +593,18 @@ function addToCalendarService(service) {
         alert('Invalid date format. Cannot add to calendar.');
         return;
     }
-    
+
     if (!startDate) {
         alert('Event date is missing. Cannot add to calendar.');
         return;
     }
-    
+
     // If no end date, set end date to 1 hour after start
     if (!endDate) {
         endDate = new Date(startDate);
         endDate.setHours(endDate.getHours() + 1);
     }
-    
+
     // Format dates for iCalendar (YYYYMMDDTHHmmssZ)
     function formatICSDate(date) {
         const year = date.getUTCFullYear();
@@ -594,17 +615,17 @@ function addToCalendarService(service) {
         const seconds = String(date.getUTCSeconds()).padStart(2, '0');
         return `${year}${month}${day}T${hours}${minutes}${seconds}Z`;
     }
-    
+
     // Format dates for calendar URLs
     function formatURLDate(date) {
         return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     }
-    
+
     const startICS = formatICSDate(startDate);
     const endICS = formatICSDate(endDate);
     const startURL = formatURLDate(startDate);
     const endURL = formatURLDate(endDate);
-    
+
     // Create .ics file content
     function generateICS() {
         const icsContent = [
@@ -635,29 +656,29 @@ function addToCalendarService(service) {
         ].filter(line => line !== '').join('\r\n');
         return icsContent;
     }
-    
+
     function escapeICS(text) {
         return text.replace(/\\/g, '\\\\')
-                   .replace(/;/g, '\\;')
-                   .replace(/,/g, '\\,')
-                   .replace(/\n/g, '\\n');
+            .replace(/;/g, '\\;')
+            .replace(/,/g, '\\,')
+            .replace(/\n/g, '\\n');
     }
-    
+
     let url = '';
-    
+
     switch (service) {
         case 'google':
             url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startURL}/${endURL}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
             window.open(url, '_blank');
             closeCalendarModal();
             break;
-            
+
         case 'outlook':
             url = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${encodeURIComponent(title)}&startdt=${startDate.toISOString()}&enddt=${endDate.toISOString()}&body=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
             window.open(url, '_blank');
             closeCalendarModal();
             break;
-            
+
         case 'apple':
             // Apple Calendar uses .ics file
             const icsContent = generateICS();
@@ -672,7 +693,7 @@ function addToCalendarService(service) {
             window.URL.revokeObjectURL(blobUrl);
             closeCalendarModal();
             break;
-            
+
         case 'ics':
             // Download .ics file
             const ics = generateICS();
@@ -693,18 +714,18 @@ function addToCalendarService(service) {
 function renderPagination() {
     const totalPages = Math.ceil(filteredEvents.length / eventsPerPage);
     const pagination = document.getElementById('pagination');
-    
+
     if (totalPages <= 1) {
         pagination.innerHTML = '';
         return;
     }
-    
+
     let html = '';
-    
+
     html += `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(${currentPage - 1})">
         <i class="fas fa-chevron-left"></i>
     </button>`;
-    
+
     for (let i = 1; i <= totalPages; i++) {
         if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
             html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
@@ -712,11 +733,11 @@ function renderPagination() {
             html += `<button class="page-btn" disabled>...</button>`;
         }
     }
-    
+
     html += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(${currentPage + 1})">
         <i class="fas fa-chevron-right"></i>
     </button>`;
-    
+
     pagination.innerHTML = html;
 }
 

@@ -1025,13 +1025,72 @@ body {
     transform: scaleX(1);
 }
 
+/* News AI Button */
+.bfm-nav-highlight {
+    background: var(--primary-color);
+    border-radius: 4px;
+    transform: skewX(-12deg);
+    margin: 0 8px;
+    position: relative;
+    overflow: hidden;
+    align-self: center;
+}
+
 .bfm-nav-highlight>a {
-    color: var(--primary-color);
+    color: #ffffff !important;
     font-weight: 600;
+    transform: skewX(12deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 16px !important;
+    /* Reduced vertical padding */
+    height: 100%;
 }
 
 .bfm-nav-highlight>a:hover {
-    color: var(--primary-hover);
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+/* Remove default underline effect */
+.bfm-nav-highlight>a::after {
+    display: none;
+}
+
+/* Moving vertical line animation */
+.bfm-nav-highlight::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -20px;
+    width: 2px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    transform: skewX(12deg);
+    z-index: 1;
+    animation: moveLine 3s infinite linear;
+}
+
+@keyframes moveLine {
+    0% {
+        left: -20%;
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        left: 120%;
+        opacity: 0;
+    }
 }
 
 .bfm-nav-item>a .fas.fa-chevron-down {

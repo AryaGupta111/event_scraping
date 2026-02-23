@@ -1204,7 +1204,7 @@ body {
 	z-index: 1000;
 	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
 	font-family:
-		"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+		"Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 	border-bottom: 1px solid #e5e7eb;
 }
 
@@ -1231,8 +1231,9 @@ body {
 }
 
 .bfm-logo-img {
-	height: 40px;
+	height: 48px;
 	width: auto;
+	margin: 1em 0.5em;
 	object-fit: contain;
 }
 
@@ -1263,7 +1264,7 @@ body {
 	color: #374151;
 	text-decoration: none;
 	font-size: 0.875rem;
-	font-weight: 500;
+	font-weight: 600;
 	white-space: nowrap;
 	transition: color 0.2s ease;
 	position: relative;
@@ -1291,8 +1292,8 @@ body {
 
 .bfm-nav-highlight {
 	background: var(--primary-color);
-	border-radius: 4px;
-	transform: skewX(-12deg);
+	border-radius:8px;
+	transform: skewX(-8deg);
 	margin: 0 8px;
 	position: relative;
 	overflow: hidden;
@@ -1302,7 +1303,7 @@ body {
 .bfm-nav-highlight > a {
 	color: #ffffff !important;
 	font-weight: 600;
-	transform: skewX(12deg);
+	transform: skewX(8deg);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -1471,7 +1472,8 @@ body {
 
 .bfm-trending-icon {
 	color: #ffffff;
-	font-size: 0.9rem;
+	font-size: 1rem;
+	font-weight: 600;
 	flex-shrink: 0;
 }
 
@@ -1493,14 +1495,14 @@ body {
 	content: "/";
 	color: rgba(255, 255, 255, 0.25);
 	margin: 0 12px;
-	font-size: 0.8rem;
+	font-size: 0.9rem;
 }
 
 .bfm-trending-links li a {
 	color: rgba(255, 255, 255, 0.75);
 	text-decoration: none;
 	font-size: 0.8rem;
-	font-weight: 500;
+	font-weight: 600;
 	transition: color 0.2s ease;
 	padding: 4px 0;
 }

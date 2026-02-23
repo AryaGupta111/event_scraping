@@ -188,71 +188,21 @@
 		<header class="header">
 			<div class="header-content">
 				<span class="header-badge"
-					>🌐 Explore 500+ Events Worldwide</span
+					>Explore 500+ Events Worldwide</span
 				>
 				<h1 class="main-title">Discover Crypto Events</h1>
 				<p class="subtitle">
-					Connect with the blockchain community worldwide —
+					Connect with the blockchain community worldwide,
 					conferences, meetups, hackathons & more
 				</p>
 			</div>
 		</header>
 
 		<div class="container">
-			<!-- List Event Button -->
-			<div class="list-event-wrapper">
-				<button class="btn-primary" id="listEventBtn">
-					<i class="fas fa-plus"></i> List Event
-				</button>
-			</div>
-
-			<!-- Filters Section -->
+			<!-- Filters & Controls Section -->
 			<section class="filters-section">
-				<div class="filters-container">
-					<div class="filter-group">
-						<select id="locationFilter" class="filter-select">
-							<option value="">All Locations</option>
-						</select>
-					</div>
-
-					<div class="filter-group">
-						<select id="dateFilter" class="filter-select">
-							<option value="">All Dates</option>
-							<option value="upcoming">Upcoming</option>
-							<option value="ongoing">Ongoing</option>
-							<option value="ended">Ended</option>
-						</select>
-					</div>
-
-					<div class="filter-group">
-						<select id="typeFilter" class="filter-select">
-							<option value="">All Types</option>
-						</select>
-					</div>
-
-					<button class="btn-reset" id="resetFilters">
-						Reset Filters
-					</button>
-				</div>
-
-				<!-- Status Tabs -->
-				<div class="status-tabs">
-					<button class="tab-btn active" data-status="all">
-						All <span class="count" id="countAll">0</span>
-					</button>
-					<button class="tab-btn" data-status="upcoming">
-						Upcoming <span class="count" id="countUpcoming">0</span>
-					</button>
-					<button class="tab-btn" data-status="ongoing">
-						Ongoing <span class="count" id="countOngoing">0</span>
-					</button>
-					<button class="tab-btn" data-status="ended">
-						Ended <span class="count" id="countEnded">0</span>
-					</button>
-				</div>
-
-				<!-- Search Bar -->
-				<div class="search-container">
+				<!-- Top Bar: Search + Filters Toggle + List Event -->
+				<div class="filters-toolbar">
 					<div class="search-wrapper">
 						<i class="fas fa-search search-icon"></i>
 						<input
@@ -262,11 +212,68 @@
 							placeholder="Search events..."
 						/>
 					</div>
+					<button class="btn-filter-toggle" id="filterToggleBtn">
+						<i class="fas fa-sliders-h"></i>
+					</button>
+					<button class="btn-list-event" id="listEventBtn">
+						<i class="fas fa-plus"></i> New Event
+					</button>
+				</div>
+
+				<!-- Collapsible Filters -->
+				<div class="filters-collapsible" id="filtersCollapsible">
+					<div class="filters-container">
+						<div class="filter-group">
+							<label class="filter-label">Location</label>
+							<select id="locationFilter" class="filter-select">
+								<option value="">All Locations</option>
+							</select>
+						</div>
+
+						<div class="filter-group">
+							<label class="filter-label">Date</label>
+							<select id="dateFilter" class="filter-select">
+								<option value="">All Dates</option>
+								<option value="upcoming">Upcoming</option>
+								<option value="ongoing">Ongoing</option>
+								<option value="ended">Ended</option>
+							</select>
+						</div>
+
+						<div class="filter-group">
+							<label class="filter-label">Type</label>
+							<select id="typeFilter" class="filter-select">
+								<option value="">All Types</option>
+							</select>
+						</div>
+
+						<button class="btn-reset" id="resetFilters">
+							<i class="fas fa-redo"></i> Reset
+						</button>
+					</div>
+				</div>
+
+				<!-- Status Tabs + View Toggle -->
+				<div class="controls-bar">
+					<div class="status-tabs">
+						<button class="tab-btn active" data-status="all">
+							All <span class="count" id="countAll">0</span>
+						</button>
+						<button class="tab-btn" data-status="upcoming">
+							Upcoming <span class="count" id="countUpcoming">0</span>
+						</button>
+						<button class="tab-btn" data-status="ongoing">
+							Ongoing <span class="count" id="countOngoing">0</span>
+						</button>
+						<button class="tab-btn" data-status="ended">
+							Ended <span class="count" id="countEnded">0</span>
+						</button>
+					</div>
 					<div class="view-toggle">
-						<button class="view-btn active" data-view="grid">
+						<button class="view-btn active" data-view="grid" title="Grid view">
 							<i class="fas fa-th"></i>
 						</button>
-						<button class="view-btn" data-view="list">
+						<button class="view-btn" data-view="list" title="List view">
 							<i class="fas fa-list"></i>
 						</button>
 					</div>

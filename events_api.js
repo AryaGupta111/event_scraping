@@ -37,7 +37,12 @@ async function loadEvents() {
 				status: getEventStatus(event),
 			}));
 
-			filteredEvents = [...allEvents];
+			filteredEvents = [...allEvents]
+				.sort((a, b) => new Date(a.date_time) - new Date(b.date_time))
+				.sort((a, b) => {
+					const statusOrder = { upcoming: 0, ongoing: 1, ended: 2 };
+					return statusOrder[a.status] - statusOrder[b.status];
+				});
 
 			populateFilters();
 			updateEventCounts();
@@ -113,15 +118,9 @@ function getImageUrl(event) {
 	// Fallback to placeholder SVG
 	return `data:image/svg+xml,${encodeURIComponent(`
         <svg xmlns="http://www.w3.org/2000/svg" width="400" height="220" viewBox="0 0 400 220">
-            <defs>
-                <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#1e00ff;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#5c4dff;stop-opacity:1" />
-                </linearGradient>
-            </defs>
-            <rect width="400" height="220" fill="url(#grad)"/>
+            <rect width="400" height="220" fill="#f8f8f8"/>
             <text x="50%" y="50%" font-family="Geist Sans, sans-serif" font-size="20" font-weight="bold" 
-                  fill="white" text-anchor="middle" dominant-baseline="middle">
+                  fill="#6b7280" text-anchor="middle" dominant-baseline="middle">
                 Crypto Event
             </text>
         </svg>
@@ -164,11 +163,15 @@ function createEventCard(event) {
                 </div>
             </div>
             <div class="event-content">
-                <div class="event-date-line">${dateStr} · ${timeStr}</div>
                 <h3 class="event-title">${escapeHtml(event.title || "Untitled Event")}</h3>
                 ${organizer ? `<div class="event-organizer-line">by <strong>${organizer}</strong></div>` : ""}
                 <div class="event-info">
                     <div class="info-row">
+                        <i class="fas fa-calendar"></i>
+                        <span>${dateStr} · ${timeStr}</span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fas fa-map-marker-alt"></i>
                         <span>${venue}</span>
                     </div>
                 </div>
@@ -342,33 +345,41 @@ function applyFilters() {
 		.getElementById("searchInput")
 		.value.toLowerCase();
 
-	filteredEvents = allEvents.filter((event) => {
-		if (currentStatus !== "all" && event.status !== currentStatus) return false;
-		if (
-			locationFilter &&
-			!extractLocation(event.venue)?.includes(locationFilter)
-		)
-			return false;
-		if (dateFilter && event.status !== dateFilter) return false;
-		if (typeFilter && !event.category_tags?.includes(typeFilter)) return false;
+	filteredEvents = allEvents
+		.filter((event) => {
+			if (currentStatus !== "all" && event.status !== currentStatus)
+				return false;
+			if (
+				locationFilter &&
+				!extractLocation(event.venue)?.includes(locationFilter)
+			)
+				return false;
+			if (dateFilter && event.status !== dateFilter) return false;
+			if (typeFilter && !event.category_tags?.includes(typeFilter))
+				return false;
 
-		if (searchQuery) {
-			const searchableText = [
-				event.title,
-				event.description,
-				event.venue,
-				event.organizer,
-				event.category_tags,
-			]
-				.filter(Boolean)
-				.join(" ")
-				.toLowerCase();
+			if (searchQuery) {
+				const searchableText = [
+					event.title,
+					event.description,
+					event.venue,
+					event.organizer,
+					event.category_tags,
+				]
+					.filter(Boolean)
+					.join(" ")
+					.toLowerCase();
 
-			if (!searchableText.includes(searchQuery)) return false;
-		}
+				if (!searchableText.includes(searchQuery)) return false;
+			}
 
-		return true;
-	});
+			return true;
+		})
+		.sort((a, b) => new Date(a.date_time) - new Date(b.date_time))
+		.sort((a, b) => {
+			const statusOrder = { upcoming: 0, ongoing: 1, ended: 2 };
+			return statusOrder[a.status] - statusOrder[b.status];
+		});
 
 	currentPage = 1;
 	updateEventCounts();
@@ -386,7 +397,16 @@ function resetFilters() {
 		btn.classList.toggle("active", btn.dataset.status === "all");
 	});
 
-	applyFilters();
+	filteredEvents = [...allEvents]
+		.sort((a, b) => new Date(a.date_time) - new Date(b.date_time))
+		.sort((a, b) => {
+			const statusOrder = { upcoming: 0, ongoing: 1, ended: 2 };
+			return statusOrder[a.status] - statusOrder[b.status];
+		});
+
+	currentPage = 1;
+	updateEventCounts();
+	displayEvents();
 }
 
 function updateEventCounts() {
@@ -859,3 +879,16 @@ function debounce(func, wait) {
 		timeout = setTimeout(later, wait);
 	};
 }
+
+// Filter Toggle Logic
+document.addEventListener("DOMContentLoaded", () => {
+	const filterToggleBtn = document.getElementById("filterToggleBtn");
+	const filtersCollapsible = document.getElementById("filtersCollapsible");
+
+	if (filterToggleBtn && filtersCollapsible) {
+		filterToggleBtn.addEventListener("click", () => {
+			filtersCollapsible.classList.toggle("open");
+			filterToggleBtn.classList.toggle("active");
+		});
+	}
+});

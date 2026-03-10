@@ -8,7 +8,7 @@ import os
 # For MongoDB Atlas (Cloud):
 # Replace the connection string below with your MongoDB Atlas connection string
 # Example: mongodb+srv://admin:yourpassword@cluster0.xxxxx.mongodb.net/?retryWrites=true&w=majority
-MONGODB_URI = os.getenv('MONGODB_URI', 'mongodb+srv://admin:BGfaJ003nDZIFIdT@cluster0.c9yuy9y.mongodb.net/?appName=Cluster0')
+MONGODB_URI = os.getenv('MONGODB_URI', 'mongodb+srv://admin:Mahadev123@cluster0.c9yuy9y.mongodb.net/?appName=Cluster0')
 
 # IMPORTANT: After getting your MongoDB Atlas connection string:
 # 1. Replace the MONGODB_URI above with your Atlas connection string

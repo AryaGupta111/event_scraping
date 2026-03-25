@@ -23,6 +23,11 @@ USER_COLLECTION = 'user'  # User-listed events (form submissions); images stored
 
 # Scraping Configuration
 SCRAPE_INTERVAL_HOURS = 24
+
+# Cleanup Configuration
+# Delete events that ended more than X days ago to save database storage
+CLEANUP_GRACE_DAYS = 7  # Keep ended events for 7 days before deletion
+
 BASE_URL = "https://lu.ma"
 BASE_API_URL = "https://api2.luma.com"
 
@@ -41,8 +46,22 @@ API_HEADERS = {
     "X-Luma-Client-Type": "luma-web",
 }
 
-# Crypto locations for scraping
-CRYPTO_LOCATIONS = [
+# Event categories to scrape
+EVENT_CATEGORIES = [
+    {
+        "slug": "crypto",
+        "tags": "crypto,web3,blockchain",
+        "name": "Crypto & Web3"
+    },
+    {
+        "slug": "ai",
+        "tags": "ai,artificial-intelligence,machine-learning,ml",
+        "name": "AI & Machine Learning"
+    }
+]
+
+# Locations for scraping (used for all categories)
+SCRAPING_LOCATIONS = [
     {"name": "San Francisco, USA", "lat": 37.7749, "lng": -122.4194},
     {"name": "New York, USA", "lat": 40.7128, "lng": -74.0060},
     {"name": "London, UK", "lat": 51.5074, "lng": -0.1278},
@@ -56,6 +75,9 @@ CRYPTO_LOCATIONS = [
     {"name": "Mumbai, India", "lat": 19.0760, "lng": 72.8777},
     {"name": "Bangalore, India", "lat": 12.9716, "lng": 77.5946},
 ]
+
+# Legacy support
+CRYPTO_LOCATIONS = SCRAPING_LOCATIONS
 
 # Rate limiting
 API_RATE_DELAY = 0.3

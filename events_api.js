@@ -196,23 +196,38 @@ function populateFilters() {
 		locationFilter.appendChild(option);
 	});
 
+	// Type filter should show event_type field (Conference, Meetup, etc.)
+	// NOT category_tags (crypto, web3, ai, etc.)
 	const types = new Set();
 	allEvents.forEach((event) => {
-		if (event.category_tags) {
-			event.category_tags.split(",").forEach((tag) => {
-				const cleanTag = tag.trim();
-				if (cleanTag) types.add(cleanTag);
-			});
+		// Only add if event_type exists and is not a category tag
+		if (event.event_type && event.event_type.trim()) {
+			const type = event.event_type.trim().toLowerCase();
+			// Exclude category-like values
+			if (!['crypto', 'web3', 'blockchain', 'ai', 'ml', 'machine-learning', 'artificial-intelligence'].includes(type)) {
+				types.add(event.event_type);
+			}
 		}
 	});
 
 	const typeFilter = document.getElementById("typeFilter");
-	[...types].sort().forEach((type) => {
-		const option = document.createElement("option");
-		option.value = type;
-		option.textContent = capitalizeWords(type);
-		typeFilter.appendChild(option);
-	});
+	// Clear existing options except "All Types"
+	typeFilter.innerHTML = '<option value="">All Types</option>';
+	
+	if (types.size > 0) {
+		[...types].sort().forEach((type) => {
+			const option = document.createElement("option");
+			option.value = type;
+			option.textContent = capitalizeWords(type);
+			typeFilter.appendChild(option);
+		});
+	} else {
+		// If no valid event types, hide the Type filter
+		const typeFilterGroup = typeFilter.closest('.filter-group');
+		if (typeFilterGroup) {
+			typeFilterGroup.style.display = 'none';
+		}
+	}
 }
 
 function extractLocation(venue) {
@@ -229,6 +244,9 @@ function capitalizeWords(str) {
 }
 
 function initializeEventListeners() {
+	document
+		.getElementById("categoryFilter")
+		.addEventListener("change", applyFilters);
 	document
 		.getElementById("locationFilter")
 		.addEventListener("change", applyFilters);
@@ -338,6 +356,7 @@ function initializeEventListeners() {
 }
 
 function applyFilters() {
+	const categoryFilter = document.getElementById("categoryFilter").value;
 	const locationFilter = document.getElementById("locationFilter").value;
 	const dateFilter = document.getElementById("dateFilter").value;
 	const typeFilter = document.getElementById("typeFilter").value;
@@ -349,13 +368,30 @@ function applyFilters() {
 		.filter((event) => {
 			if (currentStatus !== "all" && event.status !== currentStatus)
 				return false;
+			
+			// Category filter - check if event tags contain the category
+			if (categoryFilter) {
+				const tags = (event.category_tags || "").toLowerCase();
+				if (categoryFilter === "crypto") {
+					// Check for crypto, web3, or blockchain tags
+					if (!tags.includes("crypto") && !tags.includes("web3") && !tags.includes("blockchain")) {
+						return false;
+					}
+				} else if (categoryFilter === "ai") {
+					// Check for ai, ml, or machine-learning tags
+					if (!tags.includes("ai") && !tags.includes("ml") && !tags.includes("machine-learning") && !tags.includes("artificial-intelligence")) {
+						return false;
+					}
+				}
+			}
+			
 			if (
 				locationFilter &&
 				!extractLocation(event.venue)?.includes(locationFilter)
 			)
 				return false;
 			if (dateFilter && event.status !== dateFilter) return false;
-			if (typeFilter && !event.category_tags?.includes(typeFilter))
+			if (typeFilter && event.event_type !== typeFilter)
 				return false;
 
 			if (searchQuery) {
@@ -387,6 +423,7 @@ function applyFilters() {
 }
 
 function resetFilters() {
+	document.getElementById("categoryFilter").value = "";
 	document.getElementById("locationFilter").value = "";
 	document.getElementById("dateFilter").value = "";
 	document.getElementById("typeFilter").value = "";

@@ -32,18 +32,24 @@ class MongoDBScraper:
         }
     
     def scrape_all_events(self):
-        """Scrape events from all locations"""
+        """Scrape events from all categories and locations"""
         logger.info("🚀 Starting event scraping...")
-        logger.info(f"📍 Scraping {len(CRYPTO_LOCATIONS)} locations")
+        logger.info(f"📂 Categories: {len(EVENT_CATEGORIES)}")
+        logger.info(f"📍 Locations: {len(SCRAPING_LOCATIONS)}")
         
-        for idx, location in enumerate(CRYPTO_LOCATIONS, 1):
-            try:
-                logger.info(f"[{idx}/{len(CRYPTO_LOCATIONS)}] 🌍 {location['name']}")
-                self._scrape_location(location)
-                time.sleep(API_RATE_DELAY)
-            except Exception as e:
-                logger.error(f"❌ Error scraping {location['name']}: {e}")
-                self.stats['errors'] += 1
+        for category in EVENT_CATEGORIES:
+            logger.info(f"\n{'='*60}")
+            logger.info(f"📂 Category: {category['name']} (slug: {category['slug']})")
+            logger.info(f"{'='*60}")
+            
+            for idx, location in enumerate(SCRAPING_LOCATIONS, 1):
+                try:
+                    logger.info(f"[{idx}/{len(SCRAPING_LOCATIONS)}] 🌍 {location['name']}")
+                    self._scrape_location(location, category)
+                    time.sleep(API_RATE_DELAY)
+                except Exception as e:
+                    logger.error(f"❌ Error scraping {location['name']}: {e}")
+                    self.stats['errors'] += 1
         
         logger.info(f"""
 ╔══════════════════════════════════════════════════════════╗
@@ -58,8 +64,8 @@ class MongoDBScraper:
         
         return self.stats
     
-    def _scrape_location(self, location):
-        """Scrape events for a specific location"""
+    def _scrape_location(self, location, category):
+        """Scrape events for a specific location and category"""
         try:
             response = self.session.get(
                 f"{BASE_API_URL}/discover/get-paginated-events",
@@ -67,7 +73,7 @@ class MongoDBScraper:
                     "latitude": location["lat"],
                     "longitude": location["lng"],
                     "pagination_limit": 100,
-                    "slug": "crypto"
+                    "slug": category["slug"]
                 }
             )
             response.raise_for_status()
@@ -78,13 +84,13 @@ class MongoDBScraper:
             logger.info(f"   📊 Found {len(entries)} events")
             
             for entry in entries:
-                self._process_event(entry, location["name"])
+                self._process_event(entry, location["name"], category)
                 
         except Exception as e:
             logger.error(f"Error fetching events for {location['name']}: {e}")
             raise
     
-    def _process_event(self, entry, location_name):
+    def _process_event(self, entry, location_name, category):
         """Process and save a single event"""
         try:
             event_data = entry.get("event", {})
@@ -94,7 +100,7 @@ class MongoDBScraper:
                 return
             
             # Parse event data
-            parsed_event = self._parse_event_data(entry, location_name)
+            parsed_event = self._parse_event_data(entry, location_name, category)
             
             if not parsed_event:
                 return
@@ -114,7 +120,7 @@ class MongoDBScraper:
             logger.error(f"Error processing event: {e}")
             self.stats['errors'] += 1
     
-    def _parse_event_data(self, entry, location_name):
+    def _parse_event_data(self, entry, location_name, category):
         """Parse event data from API response"""
         try:
             event_data = entry.get("event", {})
@@ -157,6 +163,9 @@ class MongoDBScraper:
             slug = (event_data.get("url") or "").strip("/")
             event_url = f"{BASE_URL}/{slug}" if slug else f"{BASE_URL}/{event_id}"
             
+            # Extract event type from event data
+            event_type = event_data.get("event_type") or event_data.get("meeting_type")
+            
             # Parse dates
             start_iso = self._normalize_datetime(entry.get("start_at"))
             end_iso = self._normalize_datetime(entry.get("end_at"))
@@ -170,7 +179,8 @@ class MongoDBScraper:
                 "venue": venue,
                 "organizer": organizer,
                 "description": event_data.get("description"),
-                "category_tags": "crypto,web3,blockchain",
+                "category_tags": category["tags"],
+                "event_type": event_type,
                 "ticket_url": event_url,
                 "image_url": image_url,
                 "guest_count": entry.get("guest_count", 0),
@@ -178,7 +188,7 @@ class MongoDBScraper:
                 "discovery_location": location_name,
                 "timezone": event_data.get("timezone"),
                 "scraped_at": datetime.now(timezone.utc).isoformat(),
-                "source": "api-mongodb"
+                "source": f"api-{category['slug']}"
             }
             
         except Exception as e:

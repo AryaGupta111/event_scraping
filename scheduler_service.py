@@ -1,6 +1,6 @@
 """
 Automated Scheduler Service
-Runs scraper every 24 hours
+Runs scraper every 24 hours and cleans up ended events daily
 """
 
 import schedule
@@ -8,7 +8,8 @@ import time
 import logging
 from datetime import datetime
 from scraper_mongodb import main as run_scraper
-from config import SCRAPE_INTERVAL_HOURS
+from database import DatabaseManager
+from config import SCRAPE_INTERVAL_HOURS, CLEANUP_GRACE_DAYS
 
 logging.basicConfig(
     level=logging.INFO,
@@ -28,24 +29,47 @@ def scheduled_scrape():
     except Exception as e:
         logger.error(f"❌ Scrape error: {e}")
 
+def scheduled_cleanup():
+    """Clean up ended events to save database storage"""
+    logger.info(f"🧹 Scheduled cleanup started at {datetime.now()}")
+    try:
+        db = DatabaseManager()
+        # Delete events that ended more than CLEANUP_GRACE_DAYS ago
+        deleted_count = db.delete_ended_events(grace_days=CLEANUP_GRACE_DAYS)
+        db.close()
+        
+        if deleted_count > 0:
+            logger.info(f"✅ Cleanup completed: {deleted_count} ended events removed")
+        else:
+            logger.info("✅ Cleanup completed: No events to remove")
+    except Exception as e:
+        logger.error(f"❌ Cleanup error: {e}")
+
 def run_scheduler():
     """Run the scheduler service"""
     logger.info(f"""
 ╔══════════════════════════════════════════════════════════╗
-║         ⏰ Automated Scraper Scheduler                   ║
+║         ⏰ Automated Scraper & Cleanup Scheduler         ║
 ╚══════════════════════════════════════════════════════════╝
 
-📅 Schedule: Every {SCRAPE_INTERVAL_HOURS} hours
-🕐 Next run: {schedule.next_run()}
+📅 Scraping Schedule: Every {SCRAPE_INTERVAL_HOURS} hours
+🧹 Cleanup Schedule: Daily at 02:00 AM
+🕐 Next scrape: {schedule.next_run()}
 
 Running initial scrape now...
     """)
     
-    # Run immediately on start
+    # Run scrape immediately on start
     scheduled_scrape()
     
-    # Schedule for every 24 hours
+    # Run cleanup immediately on start
+    scheduled_cleanup()
+    
+    # Schedule scraping every 24 hours
     schedule.every(SCRAPE_INTERVAL_HOURS).hours.do(scheduled_scrape)
+    
+    # Schedule cleanup daily at 2 AM
+    schedule.every().day.at("02:00").do(scheduled_cleanup)
     
     logger.info(f"✅ Scheduler started. Next run: {schedule.next_run()}")
     

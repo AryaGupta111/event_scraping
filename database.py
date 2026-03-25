@@ -3,7 +3,7 @@ MongoDB Database Manager
 """
 
 from pymongo import MongoClient, ASCENDING, DESCENDING
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import logging
 from config import MONGODB_URI, DATABASE_NAME, EVENTS_COLLECTION, USER_COLLECTION
 
@@ -100,12 +100,44 @@ class DatabaseManager:
         try:
             cutoff_date = datetime.now(timezone.utc) - timedelta(days=days)
             result = self.events.delete_many({
-                'scraped_at': {'$lt': cutoff_date}
+                'scraped_at': {'$lt': cutoff_date.isoformat()}
             })
             logger.info(f"🗑️  Deleted {result.deleted_count} old events")
             return result.deleted_count
         except Exception as e:
             logger.error(f"Error deleting old events: {e}")
+            return 0
+    
+    def delete_ended_events(self, grace_days=7):
+        """
+        Delete events that have ended more than grace_days ago.
+        This keeps the database clean and saves storage.
+        
+        Args:
+            grace_days: Number of days after event ends before deletion (default: 7)
+        
+        Returns:
+            Number of events deleted
+        """
+        try:
+            cutoff_date = datetime.now(timezone.utc) - timedelta(days=grace_days)
+            cutoff_iso = cutoff_date.isoformat()
+            
+            # Delete events where end_time is older than cutoff
+            result = self.events.delete_many({
+                'end_time': {'$lt': cutoff_iso, '$ne': None}
+            })
+            
+            deleted_count = result.deleted_count
+            
+            if deleted_count > 0:
+                logger.info(f"🗑️  Deleted {deleted_count} ended events (older than {grace_days} days)")
+            else:
+                logger.info(f"✅ No ended events to delete (grace period: {grace_days} days)")
+            
+            return deleted_count
+        except Exception as e:
+            logger.error(f"Error deleting ended events: {e}")
             return 0
     
     def save_user_listed_event(self, event_data):
